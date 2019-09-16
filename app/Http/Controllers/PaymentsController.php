@@ -20,8 +20,8 @@ class PaymentsController extends Controller
      */
     public function index()
     {
-        $payments = payments::all();
-        $members = dancer::all();
+        $payments = payments::latest()->get();
+        $members = dancer::latest()->get();
         foreach ($members as $member) {
             foreach ($payments as $payment) {
                 if($member->id == $payment->member)

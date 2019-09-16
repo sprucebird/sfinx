@@ -21,8 +21,8 @@ class SignupsController extends Controller
      */
     public function index()
     {
-        $signups = Signups::all();
-        $groups = groups::all();
+        $signups = Signups::latest()->get();
+        $groups = groups::latest()->get();
         return view('signups.index', compact('signups', 'groups'));
     }
 
@@ -33,7 +33,7 @@ class SignupsController extends Controller
      */
     public function indexAPI()
     {
-        $signups = Signups::all();
+        $signups = Signups::latest()->get();
         return response()->json($signups);
     }
 

@@ -24,8 +24,8 @@ class DancerController extends Controller
      */
     public function index()
     {
-        $groups = groups::all();
-        $members = dancer::all();
+        $groups = groups::latest()->get();
+        $members = dancer::latest()->get();
         return view('members.index', compact('members', 'groups'));
     }
 
@@ -36,8 +36,8 @@ class DancerController extends Controller
      */
     public function indexAPI()
     {
-        $groups = groups::all();
-        $members = dancer::all();
+        $groups = groups::latest()->get();
+        $members = dancer::latest()->get();
         foreach ($members as $member) {
             foreach ($groups as $group) {
                 if($member->group == $group->id){
@@ -188,7 +188,6 @@ class DancerController extends Controller
             'birthDate' => 'required',
             'primaryPhone' => 'required',
             'city' => 'required',
-            'rfid_id' => 'required',
         ]);
         if ($validator->fails())
         {
@@ -207,6 +206,10 @@ class DancerController extends Controller
                 'city' => $request->input('city'),
                 'group' => 0,
                 ]);
+                if(empty($request->rfid_id))
+                {
+                  $request->rfid_id = rand(1000, 9999);
+                }
                 $rf = new RFID(['RFID' => $request->rfid_id]);
                 try {
                   $dancer->rfid()->save($rf);
@@ -345,7 +348,7 @@ class DancerController extends Controller
     {
         try{
             $dancer = dancer::where('id', $req->id)->first();
-            $dancer->rfid->delete();
+            // $dancer->rfid->delete();
             $dancer->delete();
         }catch(exception $e){
           return $dancer;

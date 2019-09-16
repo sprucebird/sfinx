@@ -52,8 +52,8 @@
 
               <div class="search-result" v-for="result in search_results" v-if="search_status == true">
                 <div>
-                  <h2>@{{result.firstName}} @{{result.lastName}}</h2>
-                  <router-link to="{path: 'member/edit/:id', params: {id: result.id}" class="tag tag-red"></router-link>
+                  <h2><router-link v-bind:to="{ name: 'edit', params: { id: result.id }}" class="item">@{{result.firstName}} @{{result.lastName}}<router-link/></h2>
+                  <router-link to="{path: '/member/edit/', params: {id: result.id}" class="tag tag-red"></router-link>
                   <h5 class="mt-2"></h5>
                 </div>
                 <div>

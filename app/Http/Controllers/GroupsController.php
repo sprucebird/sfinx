@@ -23,7 +23,7 @@ class GroupsController extends Controller
      */
     public function index()
     {
-        $groups = groups::withCount('members')->get();
+        $groups = groups::withCount('members')->latest()->get();
         return view('groups.index', compact('groups'));
     }
 
@@ -34,7 +34,7 @@ class GroupsController extends Controller
      */
     public function indexAPI()
     {
-        $groups = groups::withCount('members')->get();
+        $groups = groups::withCount('members')->latest()->get();
         // $members = dancer::all();
         // $fees = Fees::all();
         // $payments = payments::all();
@@ -159,7 +159,7 @@ class GroupsController extends Controller
      */
     public function members($id)
     {
-        $members = dancer::where('group', $id)->get();
+        $members = dancer::where('group', $id)->latest()->get();
         $groupName = groups::where('id', $id)->select('groupName')->first();
         return view('groups.members', compact('members', 'groupName'));
     }

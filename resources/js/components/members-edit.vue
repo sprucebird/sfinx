@@ -4,6 +4,9 @@
       <div class="description">
         <h3>Redaguoti nari</h3>
         <h1>{{fullName}}</h1>
+        <span class="tag tag-green" v-if="balance > 0">Apmokėta</span>
+        <span class="tag tag-red" v-if="balance == 0">Neapmokėta</span>
+        <span class="tag tag-red" v-if="balance < 0">Skola!</span>
       </div>
     </div>
 
@@ -122,9 +125,10 @@
                                  <div class="form-group col-md-6">
                                        <div class="description">
                                          <h3>Mokejimų informacija</h3>
-                                         <label class="bg-label bg-label-success" v-if="balance == 0">Geras mokumas</label>
-                                         <label class="bg-label bg-label-warning" v-if="balance > 0">Permoka</label>
-                                         <label class="bg-label bg-label-danger" v-if="balance < 0">Blogas mokumas</label>
+                                         <label class="bg-label bg-label-success" v-if="balance > 0">Geras mokumas</label>
+                                         <label class="bg-label bg-label-warning" v-if="balance > 35">Permoka</label>
+                                         <label class="bg-label bg-label-danger" v-if="balance == 0">Nesumoketa uz si menesi</label>
+                                         <label class="bg-label bg-label-danger" v-if="balance < 0">Yra skoloje</label>
                                        </div>
                                  </div>
                              </div>
@@ -166,39 +170,13 @@
         <div class="card-header">
           <h2>Mokejimu istorija</h2>
         </div>
-        <div class="card-body">
+
+        <!-- <div class="card-body">
           <div class="col-md-12">
 
-                          <div class="form-row">
-                            <div class="form-group col-md-12">
-                              <table class="table card-table table-vcenter text-nowrap datatable dataTable no-footer">
-                                  <thead>
-                                      <tr>
-                                          <th>Mokėjimo nr.</th>
-                                          <th>Vadybininkas/Treneris</th>
-                                          <th>Už nurodytą men.</th>
-                                          <th>Ankstesnes skolos</th>
-                                          <th>Galutinė suma</th>
-                                          <th>Veiksmai</th>
-                                      </tr>
-                                  </thead>
-                                  <tbody>
-                                          <tr>
-                                              <td> XR-6206 </td>
-                                              <td> Karolis Paradnikas </td>
-                                              <td> 35 Eur. </td>
-                                              <td> 0 Eur. </td>
-                                              <td> 35 Eur. </td>
-                                              <td>
-                                                  <span href="" class="link" @click="showEditDialog(result.id)">Redaguoti</span>
-                                              </td>
-                                          </tr>
-                                  </tbody>
-                              </table>
-                            </div>
-                          </div>
+
           </div>
-        </div>
+        </div> -->
       </div>
       </div>
     </div>
@@ -247,7 +225,6 @@
     mounted() {
       axios.get('/api/members/'+this.MemberID).then(response => {
         this.API_results = response.data.member;
-        //this.balance = this.API_results.balance;
         this.fullName = this.API_results.firstName + " " + this.API_results.lastName;
         this.birthDate = this.API_results.birthDate;
         this.primaryPhone = this.API_results.primaryPhone;
@@ -259,7 +236,7 @@
         this.city = this.API_results.city;
         this.balance = this.API_results.balance;
         this.fee = this.API_results.fee;
-        this.balance = response.data.balance + " eurai";
+        this.balance = response.data.balance;
         this.rfid_id = this.API_results.rfid_id;
       });
     },

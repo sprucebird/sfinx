@@ -68,6 +68,8 @@
                                 <th>Gimimo data</th>
                                 <th>Telefono numeris</th>
                                 <th>Grupė</th>
+                                <th>Mokėjimai</th>
+                                <th>Pastabos</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -89,6 +91,13 @@
                                         </div>
 
                                       </div>
+                                    </td>
+                                    <td>
+                                      <label class="bg-label bg-label-success" v-if="result.balance > 0" data-toggle="dropdown">Apmokėta</label>
+                                      <label class="bg-label bg-label-error" v-if="result.balance <= 0" data-toggle="dropdown">Neapmokėta</label>
+                                    </td>
+                                    <td>
+                                      <label class="bg-label bg-label-primary" v-if="result.description != null">Yra</label>
                                     </td>
                                     <td>
                                         <div class="item-action dropdown">

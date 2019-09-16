@@ -142,11 +142,12 @@ class StatisticsController extends Controller
     {
             $JSONed = [];
             $months = [];
-            $Fees = fees::all();
+            $Fees = fees::whereDate('created_at', DB::raw('CURDATE()'))->get();
             $Payments = payments::all();
+            $todaysPayments = payments::whereDate('created_at', DB::raw('CURDATE()'))->get();
             $FeeSum = 0;
             $PaymentsSum = 0;
-            foreach ($Payments as $payment) {
+            foreach ($todaysPayments as $payment) {
                 $PaymentsSum+= $payment->price;
             }
             foreach ($Fees as $fee) {

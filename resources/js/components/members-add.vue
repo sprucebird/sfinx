@@ -52,17 +52,14 @@
                         <div class="form-row">
                           <div class="form-group col-md-6">
                             <label for="inputBname">Miestas</label>
-                            <select class="form-control form-control-select" v-model="city" v-bind:class="{form_control_danger: city_required}">
+                            <select class="form-control form-control-select" v-model="city">
                               <option value="Klaipėda" selected>Klaipėda</option>
                               <option value="Vilnius">Vilnius</option>
                             </select>
-                            <label class="text-danger" v-if="city == null">Šis laukelis privalomas</label>
                           </div>
                           <div class="form-group col-md-6">
                             <label for="inputBname">Gimimo data</label>
-                            <date-picker v-model="birthDate" :config="options"></date-picker>
-                            <label class="text-danger" v-if="birthDate == ''">Šis laukelis privalomas</label>
-                          </div>
+                            <date-picker v-model="birthDate" :config="options"></date-picker>                          </div>
                         </div>
                         <div class="form-row">
                           <div class="form-group col-md-6">
@@ -74,8 +71,7 @@
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="inputBname">Telefono numeris</label>
-                                <input type="text" class="form-control" id="inputBname" placeholder="+3706xxxxx" v-model="primaryPhone" v-bind:class="{form_control_danger: primaryPhone_required}">
-                                <label class="text-danger" v-if="primaryPhone == ''">Šis laukelis privalomas</label>
+                                <input type="text" class="form-control" id="inputBname" placeholder="+3706xxxxx" v-model="primaryPhone">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="inputBname">Antras telefono numeris</label>
@@ -175,9 +171,9 @@
       memberCreate: function(){
         var verificationStatus = false;
         if(this.fullName == '' || this.fullName == null) { this.fullName_required = true; verificationStatus = false }
-        if(this.primaryPhone == '' || this.primaryPhone == null) { this.primaryPhone_required = true;verificationStatus = false }
-        if(this.birthDate == '' || this.birthDate == null) { this.birthDate_required = true; verificationStatus = false }
-        if(this.city == '' || this.city == null) { this.city_required = true; verificationStatus = false }
+        // if(this.primaryPhone == '' || this.primaryPhone == null) { this.primaryPhone_required = true;verificationStatus = false }
+        // if(this.birthDate == '' || this.birthDate == null) { this.birthDate_required = true; verificationStatus = false }
+        // if(this.city == '' || this.city == null) { this.city_required = true; verificationStatus = false }
         var fullFullName = this.fullName.split(" ");
         axios.post('/api/members/store', {
           firstName: fullFullName[0],

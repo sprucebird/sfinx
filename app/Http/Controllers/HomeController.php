@@ -83,8 +83,9 @@ class HomeController extends Controller
       $signups = Signups::where('firstName', 'LIKE', '%'.$q.'%')->orwhere('lastName', 'LIKE', '%'.$q.'%')->orwhere('city', 'LIKE', '%'.$q.'%')->get();
       $members = dancer::where('firstName', 'LIKE', '%'.$q.'%')->orwhere('lastName', 'LIKE', '%'.$q.'%')->orwhere('city', 'LIKE', '%'.$q.'%')->orwhere('id', 'LIKE', '%'.$q.'%')->get();
       $groups = groups::where('groupName', 'LIKE', '%'.$q.'%')->orwhere('id', 'LIKE', '%'.$q.'%')->get();
+      $results = array_merge($groups->toArray(), $members->toArray(), $signups->toArray());
       $msg = "";
       if(count($members)==0 && count($signups)==0 && count($groups) == 0) return response()->json(['status' => 'error', 'message' => 'null']);
-      return response()->json($members);
+      return response()->json($results);
     }
 }

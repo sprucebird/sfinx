@@ -22,7 +22,7 @@ class RFIDController extends Controller
      */
     public function index()
     {
-        $rfids = RFID::all();
+        $rfids = RFID::latest()->get();
         return view('rfid.index', compact('rfids'));
     }
 
@@ -145,9 +145,9 @@ class RFIDController extends Controller
      */
     public function entries()
     {
-        $entries = Entrie::all();
-        $members = dancer::all();
-        $groups = groups::all();
+        $entries = Entrie::latest()->get();
+        $members = dancer::latest()->get();
+        $groups = groups::latest()->get();
         foreach ($entries as $entrie)
         {
             foreach ($members as $member)
