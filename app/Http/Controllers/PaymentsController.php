@@ -28,7 +28,7 @@ class PaymentsController extends Controller
                 {
                     $payment->firstName = $member->firstName;
                     $payment->lastName = $member->lastName;
-                    $payment->leader = $member->currentGroup->leader;
+                    // $payment->leader = $member->currentGroup->leader;
                 }
             }
         }

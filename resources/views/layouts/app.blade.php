@@ -226,9 +226,14 @@
       <main class="content" :class="{change: dark }">
         <router-view></router-view>
       </main>
-        <button v-if="this.$route.name != 'edit'" class="btn btn-primary btn-rounded bottomAction" @click="scanRFID()">
-        	<span style="display: none;">-</span> <span class="icon-white" data-feather="credit-card"></span> <span style="display: none;">-</span>
-        </button>
+        <div class="bottomAction">
+          <button v-if="this.$route.name != 'edit'" class="btn btn-primary btn-rounded" @click="scanRFID()">
+          	<span style="display: none;">-</span> <span class="icon-white" data-feather="credit-card"></span> <span style="display: none;">-</span>
+          </button>
+          <router-link to="/treniruote" class="btn btn-secondary btn-rounded">
+          	<span style="display: none;">-</span> <span class="icon-white" data-feather="check-square"></span> <span style="display: none;">-</span>
+          </router-link>
+        </div>
     </div>
 
 </body>

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Signups;
 use App\payments;
 use App\Fees;
+use App\Entrie;
 use App\groups;
 use App\RFID;
 use Illuminate\Http\Request;
@@ -26,6 +27,11 @@ class DancerController extends Controller
     {
         $groups = groups::latest()->get();
         $members = dancer::latest()->get();
+        foreach ($members as $m) {
+          $m->payments = payments::where('member', $m->id);
+          $m->fees = Fees::where('owner', $m->id);
+          $m->balance = calculateBalance($m->payments, $m->fees);
+        }
         return view('members.index', compact('members', 'groups'));
     }
 
@@ -39,6 +45,10 @@ class DancerController extends Controller
         $groups = groups::latest()->get();
         $members = dancer::latest()->get();
         foreach ($members as $member) {
+          $member->entries = Entrie::where('Owner', $member->id)->count();
+          $member->payments = payments::where('member', $member->id)->get();
+          $member->fees = Fees::where('owner', $member->id)->get();
+          $member->balance = calculateBalance($member->payments, $member->fees);
             foreach ($groups as $group) {
                 if($member->group == $group->id){
                     $member->groupName = $group->groupName;

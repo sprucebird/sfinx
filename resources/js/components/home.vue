@@ -21,8 +21,8 @@
           <span class="mt-1 status status-ok"></span>
           <h1 class="number mt-3 ml-2">+ {{income}} Eur</h1>
           <div class="txt mt-2 ml-2">
-            <h2>Gauta pajamų</h2>
-            <h3>nuo {{income_date}}</h3>
+            <h2>Gauta mokėjimų suma</h2>
+            <h3>per šiandien ({{income_date}})</h3>
           </div>
         </div>
 
@@ -46,12 +46,12 @@
       </div>
   </div>
   <div class="page-content justify-content-center mt-4">
-    <div class="card big mt-5">
+    <!-- <div class="card big mt-5">
       <div class="card-header">
         Veiksmų centras
       </div>
       <div class="card-body">
-       <!--  <div class="table-responsive">
+        <div class="table-responsive">
                     <table class="table card-table table-vcenter text-nowrap datatable dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
                       <thead>
                         <tr role="row"><th class="w-1 sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="No.: activate to sort column descending" style="width: 45px;">Unik. Nr.</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Invoice Subject: activate to sort column ascending" style="width: 171px;">Veiksmas</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Client: activate to sort column ascending" style="width: 130px;">Narys</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="VAT No.: activate to sort column ascending" style="width: 81px;">Veiksma atliko</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Created: activate to sort column ascending" style="width: 103px;">Atliktas</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 146px;">Busena</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label=": activate to sort column ascending" style="width: 175px;"></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label=": activate to sort column ascending" style="width: 29px;"></th></tr>
@@ -75,13 +75,13 @@
                         </tr>
                       </tbody>
                     </table>
-        </div> -->
+        </div>
         <div class="alert alert-primary">
           Atsiprašome, šiuo metu veiksmų centras yra tik kūrimo stadijoje
         </div>
       </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
 </template>

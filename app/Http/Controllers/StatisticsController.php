@@ -185,8 +185,9 @@ class StatisticsController extends Controller
         $currentDate = date('y-m-d');
         switch ($range) {
             case 1:
-                $date = date('Y-m-d',strtotime('-30 days',strtotime($currentDate)));
+                $date = date('Y-m-d',strtotime('-0 days',strtotime($currentDate)));
                 $payments = payments::where( DB::raw('MONTH(created_at)'), '=', date('n') )->get();
+                $payments = payments::where(DB::raw('DATE(created_at)'), '=', $date)->get();
                 foreach ($payments as $data) {
                     $income+= $data->price;
                 }

@@ -20,6 +20,7 @@
                           <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Invoice Subject: activate to sort column ascending" style="width: 171px;">Vardas, pavardė</th>
                           <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Client: activate to sort column ascending" style="width: 130px;">Grupė</th>
                           <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="VAT No.: activate to sort column ascending" style="width: 81px;">Data ir laikas</th>
+                          <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 200px;">Mokumas</th>
                           <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 146px;">Būsena</th>
                         </tr>
                       </thead>
@@ -32,6 +33,14 @@
                           </td>
                           <td>
                             {{result.created_at}}
+                          </td>
+                          <td>
+                            <div v-if="result.balance > 0">
+                              <span class="status-icon bg-success"></span> Apmoketa
+                            </div>
+                            <div v-if="result.balance <= 0">
+                              <span class="status-icon bg-danger"></span> Neapmoketa
+                            </div>
                           </td>
                           <td>
                             <span class="status-icon bg-success"></span> Užfiksuotas sėkmingai

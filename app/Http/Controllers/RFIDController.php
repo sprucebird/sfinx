@@ -6,6 +6,11 @@ use App\RFID;
 use App\Entrie;
 use App\dancer;
 use App\groups;
+use App\Trainings;
+use App\payments;
+use App\Fees;
+
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -46,7 +51,11 @@ class RFIDController extends Controller
         }
         $ownerData = $owner->dancer;
 
-        $todaysEntrie = Entrie::where('Owner', $owner->Owner)->where('created_at', 'LIKE', '%'.date('Y-m').'%')->first();
+          $ownerData->payments = payments::where('member', $ownerData->id)->get();
+          $ownerData->fees = Fees::where('owner', $ownerData->id)->get();
+          $ownerData->balance = calculateBalance($ownerData->payments, $ownerData->fees);
+
+        $todaysEntrie = Entrie::where('Owner', $owner->Owner)->where('created_at', Carbon::today())->first();
 
 
         if(empty($todaysEntrie)){
@@ -55,6 +64,11 @@ class RFIDController extends Controller
           $entrie->RFID = $Req->input('RFID');
           $entrie->Owner = $owner->Owner;
           $entrie->save();
+
+          //create new training
+          // $tempTraining = new Training;
+          // $tempTraining->groupID = $owner->dancer->groupID;
+
         }
 
 
@@ -152,10 +166,14 @@ class RFIDController extends Controller
         {
             foreach ($members as $member)
             {
+
                 if($entrie->Owner == $member->id)
                 {
                     $entrie->firstName = $member->firstName;
                     $entrie->lastName = $member->lastName;
+                    $payments = payments::where('member', $member->id)->get();
+                    $fees = Fees::where('owner', $member->id)->get();
+                    $entrie->balance = calculateBalance($payments, $fees);
                     $entrie->status = 'OK';
                     foreach ($groups as $group) {
                         if($member->group == $group->id)
