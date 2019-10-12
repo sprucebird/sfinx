@@ -8,6 +8,7 @@
 require('./bootstrap');
 import swal from 'sweetalert';
 
+
 const feather = require('feather-icons')
 feather.replace();
 
