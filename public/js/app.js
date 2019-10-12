@@ -1886,6 +1886,67 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -74896,6 +74957,42 @@ var staticRenderFns = [
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "page-content justify-content-center mt-4" }, [
+        _c("div", { staticClass: "pl-3 row" }, [
+          _c("div", { staticClass: "card col-md-3" }, [
+            _c("div", { staticClass: "card-body text-center" }, [
+              _c("div", { staticClass: "h6" }, [_vm._v("Studijos lankomumas")]),
+              _vm._v(" "),
+              _c("h1", { staticClass: "font-weight-bold mb-4" }, [
+                _vm._v("78%")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "progress progress-sm" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-yellow",
+                  staticStyle: { width: "78%" }
+                })
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card col-md-3" }, [
+            _c("div", { staticClass: "card-body text-center" }, [
+              _c("div", { staticClass: "h6" }, [_vm._v("Neaktyvūs nariai")]),
+              _vm._v(" "),
+              _c("h1", { staticClass: "font-weight-bold mb-4" }, [
+                _vm._v("12%")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "progress progress-sm" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-red",
+                  staticStyle: { width: "12%" }
+                })
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
         _c("div", { staticClass: "card big mt-5" }, [
           _c("div", { staticClass: "card-header" }, [
             _vm._v("\n        Įvykusios treniruotės\n      ")
@@ -74920,26 +75017,8 @@ var staticRenderFns = [
                       _c(
                         "th",
                         {
-                          staticClass: "w-1 sorting_asc",
-                          staticStyle: { width: "45px" },
-                          attrs: {
-                            tabindex: "0",
-                            "aria-controls": "DataTables_Table_0",
-                            rowspan: "1",
-                            colspan: "1",
-                            "aria-sort": "ascending",
-                            "aria-label":
-                              "No.: activate to sort column descending"
-                          }
-                        },
-                        [_vm._v("Unik. Nr.")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "th",
-                        {
                           staticClass: "sorting",
-                          staticStyle: { width: "81px" },
+                          staticStyle: { width: "200px" },
                           attrs: {
                             tabindex: "0",
                             "aria-controls": "DataTables_Table_0",
@@ -74949,14 +75028,14 @@ var staticRenderFns = [
                               "VAT No.: activate to sort column ascending"
                           }
                         },
-                        [_vm._v("Grupė")]
+                        [_vm._v("Treniruotė")]
                       ),
                       _vm._v(" "),
                       _c(
                         "th",
                         {
                           staticClass: "sorting",
-                          staticStyle: { width: "171px" },
+                          staticStyle: { width: "100px" },
                           attrs: {
                             tabindex: "0",
                             "aria-controls": "DataTables_Table_0",
@@ -74967,6 +75046,23 @@ var staticRenderFns = [
                           }
                         },
                         [_vm._v("Data")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "th",
+                        {
+                          staticClass: "sorting",
+                          staticStyle: { width: "150px" },
+                          attrs: {
+                            tabindex: "0",
+                            "aria-controls": "DataTables_Table_0",
+                            rowspan: "1",
+                            colspan: "1",
+                            "aria-label":
+                              "Invoice Subject: activate to sort column ascending"
+                          }
+                        },
+                        [_vm._v("Laikas")]
                       ),
                       _vm._v(" "),
                       _c(
@@ -74990,7 +75086,7 @@ var staticRenderFns = [
                         "th",
                         {
                           staticClass: "sorting",
-                          staticStyle: { width: "146px" },
+                          staticStyle: { width: "200px" },
                           attrs: {
                             tabindex: "0",
                             "aria-controls": "DataTables_Table_0",
@@ -75001,42 +75097,135 @@ var staticRenderFns = [
                           }
                         },
                         [_vm._v("Neapsilankė narių")]
-                      )
+                      ),
+                      _vm._v(" "),
+                      _c("th", {
+                        staticClass: "sorting",
+                        staticStyle: { width: "150px" },
+                        attrs: {
+                          tabindex: "0",
+                          "aria-controls": "DataTables_Table_0",
+                          rowspan: "1",
+                          colspan: "1",
+                          "aria-label":
+                            "Status: activate to sort column ascending"
+                        }
+                      })
                     ])
                   ]),
                   _vm._v(" "),
                   _c("tbody", [
                     _c("tr", { staticClass: "odd", attrs: { role: "row" } }, [
-                      _c("td", [_vm._v("TR-00001")]),
+                      _c("td", [
+                        _c("div", [
+                          _vm._v(
+                            "\n                              Sfinx Squad\n                            "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "small text-muted" }, [
+                          _vm._v(
+                            "\n                              21 nariai\n                            "
+                          )
+                        ])
+                      ]),
                       _vm._v(" "),
-                      _c("td", [_vm._v("Sfinx Adults")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v("2019-10-12 14:57 - 15:47")]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-center" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass: "mx-auto chart-circle chart-circle-xs",
-                            attrs: {
-                              "data-value": "0.62",
-                              "data-thickness": "3",
-                              "data-color": "blue"
-                            }
-                          },
-                          [
-                            _c("canvas", {
-                              attrs: { width: "40", height: "40" }
-                            }),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "chart-circle-value" }, [
-                              _vm._v("62%")
-                            ])
-                          ]
+                      _c("td", [
+                        _vm._v(
+                          "\n                            2019-10-12\n                          "
                         )
                       ]),
                       _vm._v(" "),
-                      _c("td", [_vm._v("6")])
+                      _c("td", [
+                        _c("div", [
+                          _c("span", { staticClass: "tag tag-grey mr-1" }, [
+                            _vm._v("14:57")
+                          ]),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "text-muted" }, [
+                            _vm._v("-")
+                          ]),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "tag tag-grey ml-1" }, [
+                            _vm._v("15:57")
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("div", { staticClass: "clearfix" }, [
+                          _c("div", { staticClass: "float-left" }, [
+                            _c("strong", [_vm._v("62%")])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "float-right" }, [
+                            _c("small", { staticClass: "text-muted" }, [
+                              _vm._v("nuo 14:41 iki 00:00")
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "progress progress-xs" }, [
+                          _c("div", {
+                            staticClass: "progress-bar bg-green",
+                            staticStyle: { width: "62%" },
+                            attrs: {
+                              role: "progressbar",
+                              "aria-valuenow": "62",
+                              "aria-valuemin": "0",
+                              "aria-valuemax": "100"
+                            }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("div", { staticClass: "clearfix" }, [
+                          _c("div", { staticClass: "float-left" }, [
+                            _c("strong", [_vm._v("3 narių")])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "float-right" }, [
+                            _c("small", { staticClass: "text-muted" }, [
+                              _vm._v("tai yra 12% visų grupės narių")
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "progress progress-xs" }, [
+                          _c("div", {
+                            staticClass: "progress-bar bg-yellow",
+                            staticStyle: { width: "12%" },
+                            attrs: {
+                              role: "progressbar",
+                              "aria-valuenow": "12",
+                              "aria-valuemin": "0",
+                              "aria-valuemax": "100"
+                            }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "text-center" }, [
+                        _c("div", { staticClass: "item-action dropdown" }, [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "icon",
+                              attrs: {
+                                href: "javascript:void(0)",
+                                "data-toggle": "dropdown"
+                              }
+                            },
+                            [
+                              _c("i", {
+                                staticClass: "icon fe fe-activity mr-3"
+                              }),
+                              _vm._v(" Plačiau")
+                            ]
+                          )
+                        ])
+                      ])
                     ])
                   ])
                 ]
