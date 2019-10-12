@@ -17,6 +17,8 @@ class CreatePaymentsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('price');
             $table->integer('member')->default(0);
+            $table->string('for_month')->nullable();
+            $table->string('custom_code')->nullable();
             $table->integer('description')->nullable();
             $table->timestamps();
         });

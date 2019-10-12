@@ -2,8 +2,8 @@
   <div>
 	<div class="page-header mb-1">
       <div class="description">
-        <h3>RFID įrenginiai</h3>
-        <h1>Praėjimo kontrolė</h1>
+        <h3>Praėjimo kontrolė</h3>
+        <h1></h1>
       </div>
   </div>
   <div class="page-content justify-content-center mt-4">

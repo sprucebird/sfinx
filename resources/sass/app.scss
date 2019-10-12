@@ -937,3 +937,21 @@ select{
     color: #fff;
     background: $MainColor;
 }
+
+
+.modal{
+	border-radius: .255em;
+	border:none;
+}
+.modal-dialog-form{
+	min-width: 800px;
+}
+.modal-form .modal-body, .card-form .card-body{
+	background-color: $BackgroundColor;
+}
+.modal-header{
+	border-bottom: none !important;
+}
+.modal-footer{
+	border-top: none;
+}

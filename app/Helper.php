@@ -3,6 +3,8 @@
 use App\dancer;
 use App\Signups;
 use App\RFID;
+use App\payments;
+use App\Fees;
 
 function deleteSignup($signupID)
 {
@@ -58,6 +60,24 @@ function deleteMember($ID)
 			return $balance;
 	}
 
+	function calculateBalance_id($user_id)
+	{
+		$balance = 0;
+		$paymentSum = 0;
+		$feesSum = 0;
+		$memberPayments = payments::where('member', $user_id)->get();
+		$memberFees = Fees::where('owner', $user_id)->get();
+		foreach ($memberPayments as $singlePayment) {
+			$paymentSum+=$singlePayment->price;
+		}
+		foreach ($memberFees as $Fee) {
+			$feesSum+=$Fee->price;
+		}
+		$balance = $paymentSum - $feesSum;
+		return $balance;
+
+	}
+
 	/**
      * Track if more than one RFID is assigned to member
      *
@@ -93,35 +113,35 @@ function deleteMember($ID)
     			break;
     		case 3:
     			return 'Kovas';
-    			break;	
+    			break;
     		case 4:
     			return 'Balandis';
     			break;
     		case 5:
     			return 'Geguze';
-    			break;	
+    			break;
     		case 6:
     			return 'Birzelis';
-    			break;	
+    			break;
     		case 7:
     			return 'Liepa';
-    			break;	
+    			break;
     		case 8:
     			return 'Rugpjutis';
-    			break;	
+    			break;
     		case 9:
     			return 'Rugsejis';
-    			break;	
+    			break;
     		case 10:
     			return 'Spalis';
-    			break;	
+    			break;
     		case 11:
     			return 'Lapkritis';
-    			break;	
+    			break;
     		case 12:
     			return 'Gruodis';
-    			break;	
-    		
+    			break;
+
     		default:
     			# code...
     			break;

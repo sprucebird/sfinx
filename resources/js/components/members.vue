@@ -64,7 +64,6 @@
                         <thead>
                             <tr>
                                 <th>Vardas, pavardė</th>
-                                <th>Miestas</th>
                                 <th>Gimimo data</th>
                                 <th>Telefono numeris</th>
                                 <th>Grupė</th>
@@ -80,7 +79,6 @@
                                       <div>{{result.firstName}} {{result.lastName}}</div>
                                       <div class="small text-muted">Narys nuo {{result.created_at}}</div>
                                     </td>
-                                    <td> {{result.city}} </td>
                                     <td> {{result.birthDate}} </td>
                                     <td> {{result.primaryPhone}} </td>
                                     <td>
@@ -95,7 +93,8 @@
                                     </td>
                                     <td>
                                       <label class="bg-label bg-label-success" v-if="result.balance > 0">Apmokėta</label>
-                                      <label class="bg-label bg-label-danger" v-if="result.balance <= 0">Neapmokėta</label>
+                                      <label class="bg-label bg-label-danger" v-if="result.balance < 0">Neapmokėta</label>
+                                      <div v-if="result.balance == 0" class="small text-muted">Yra sumokėta už praeitą mėnesį</div>
                                     </td>
                                     <td>
                                       <label class="bg-label bg-label-main">{{result.entries}}</label>
@@ -113,13 +112,91 @@
                                             <a href="javascript:void(0)" @click="pay(result.id, result)" class="dropdown-item"><i class="dropdown-icon fe fe-credit-card"></i> Naujas mokėjimas</a>
                                           </div>
                                         </div>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                          <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                <h2 class="modal-title" id="exampleModalLongTitle">{{result.firstName}} {{result.lastName}}</h2>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span>
+                                                </button>
+                                              </div>
+                                              <div class="modal-body">
+                                                ...
+                                              </div>
+                                              <div class="modal-footer">
+
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
                                     </td>
                                 </tr>
                         </tbody>
                     </table>
                     <div class="alert alert-warning" v-if="API_results == null">
                     </div>
+
                 </div>
+            </div>
+            <div class="card big mt-5">
+              <div class="card-header">
+                Skolingi nariai
+              </div>
+              <table class="table table-hover table-outline table-vcenter text-nowrap card-table" v-if="API_results.length != 0">
+                  <thead>
+                      <tr>
+                          <th>Vardas, pavardė</th>
+                          <th>Telefono numeris</th>
+                          <th>Grupė</th>
+                          <th>Mokumas</th>
+                          <th>Apsilankymai</th>
+                          <th>Pastabos</th>
+                          <th></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                          <tr v-for="result in API_results" v-if="result.balance <= 0">
+                              <td>
+                                <div>{{result.firstName}} {{result.lastName}}</div>
+                                <div class="small text-muted">Narys nuo {{result.created_at}}</div>
+                              </td>
+                              <td> {{result.primaryPhone}} </td>
+                              <td>
+                                <label class="bg-label bg-label-warning" v-if="result.groupName == null || result.groupName == ''" data-toggle="dropdown">Nepriskirtas(-a)</label>
+                                <label class="bg-label bg-label-main" v-if="result.groupName != null" data-toggle="dropdown">{{result.groupName}}</label>
+                                <div class="dropdown-menu">
+                                  <div v-for="group in groups">
+                                    <a class="dropdown-item" @click="changeMembersGroup(group.id, result.id)">{{group.groupName}}</a>
+                                  </div>
+
+                                </div>
+                              </td>
+                              <td>
+                                <label class="bg-label bg-label-success" v-if="result.balance > 0">Apmokėta</label>
+                                <label class="bg-label bg-label-danger" v-if="result.balance <= 0">Neapmokėta</label>
+                              </td>
+                              <td>
+                                <label class="bg-label bg-label-main">{{result.entries}}</label>
+                              </td>
+                              <td>
+                                <label class="bg-label bg-label-primary" v-if="result.description != null">Yra</label>
+                              </td>
+                              <td>
+                                  <div class="item-action dropdown">
+                                    <a href="javascript:void(0)" data-toggle="dropdown" class="icon icon-table" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
+                                    <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(15px, 20px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                      <a href="javascript:void(0)" @click="showEditDialog(result.id)" class="dropdown-item"><i class="dropdown-icon fe fe-edit-2"></i> Redaguoti narį </a>
+                                      <a href="javascript:void(0)" @click="deleteMember(result.id)" class="dropdown-item"><i class="dropdown-icon fe fe-trash"></i> Pašalinti iš sistemos</a>
+                                      <div class="dropdown-divider"></div>
+                                      <a href="javascript:void(0)" @click="pay(result.id, result)" class="dropdown-item"><i class="dropdown-icon fe fe-credit-card"></i> Naujas mokėjimas</a>
+                                    </div>
+                                  </div>
+                              </td>
+                          </tr>
+                  </tbody>
+              </table>
             </div>
     </div>
   </div>

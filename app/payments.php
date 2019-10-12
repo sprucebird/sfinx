@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class payments extends Model
 {
 	protected $fillable = [
-		'price', 'member'
+		'price', 'member', 'for_month'
 	];
 
 	public function Owner()

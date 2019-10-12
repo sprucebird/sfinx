@@ -32,6 +32,7 @@ class CreateDancersTable extends Migration
             $table->integer('currentLock')->nullable();
             $table->date('lastVisited')->nullable();
             $table->date('firstVisited')->nullable();
+            $table->integer('balance')->default(0);
             $table->timestamps();
         });
     }

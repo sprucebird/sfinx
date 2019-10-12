@@ -28,51 +28,53 @@
 
 
     <div class="page-content justify-content-center">
-            <div class="card big col-md-12">
-                <div class="card-header flex-s">
-                  <h2 class="vertical-align">Visi mokejimai</h2>
-                </div>
 
-                <div class="card-body">
-                  <div class="alert alert-warning" v-if="API_results.length == null || API_results == '' || API_results.length == 0">
-                    <span>Nerasta atliktų mokėjimų sistemoje</span>
-                  </div>
+      <div class="card big col-md-12">
+        <div class="card-header">
+          Visi atlikti mokėjimai
+        </div>
+        <div class="table-responsive">
+                     <table class="table card-table table-vcenter text-nowrap datatable dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                       <thead>
+                         <tr role="row">
+                           <th class="w-1 sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="No.: activate to sort column descending" style="width: 45px;">Unikalus mokėjimo nr.</th>
+                           <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Invoice Subject: activate to sort column ascending" style="width: 171px;">Vardas, pavardė</th>
+                           <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="VAT No.: activate to sort column ascending" style="width: 81px;">Data ir laikas</th>
+                           <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 200px;">Suma</th>
+                           <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 146px;">Sumokėta už laikotarpį</th>
+                         </tr>
+                       </thead>
+                       <tbody>
+                       <tr role="row" class="odd" v-for="result in API_results">
+                           <td class="sorting_1"><span class="text-muted">{{result.id}}</span></td>
+                           <td><a href="invoice.html" class="text-inherit">{{result.firstName}} {{result.lastName}}</a></td>
 
-
-                    <table class="table table-hover table-outline table-vcenter text-nowrap card-table" v-if="API_results.length != 0">
-                        <thead>
-                            <tr>
-                                <th>Vardas, pavardė</th>
-                                <th>Suma</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                                <tr v-for="result in API_results">
-                                    <td>
-                                      <div>{{result.firstName}} {{result.lastName}}</div>
-                                      <div class="small text-muted">Mokėjimas atliktas: {{result.created_at}}</div>
-                                    </td>
-                                    <td>
-                                      {{result.price}}
-                                      <div class="small text-muted">euru</div>
-                                    </td>
-                                    <td>
-                                        <a href="javascript:void(0)" @click="deleteMember(result.id)"><i class="dropdown-icon fe fe-trash"></i></a>
-                                        <!-- <div class="item-action dropdown">
-                                          <a href="javascript:void(0)" data-toggle="dropdown" class="icon icon-table" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
-                                          <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(15px, 20px, 0px); top: 0px; left: 0px; will-change: transform;">
-
-                                          </div>
-                                        </div> -->
-                                    </td>
-                                </tr>
-                        </tbody>
-                    </table>
-                    <div class="alert alert-warning" v-if="API_results == null">
-                    </div>
-                </div>
-            </div>
+                           <td>
+                             {{result.created_at}}
+                           </td>
+                           <td>
+                             {{result.price}} eurų
+                           </td>
+                           <td>
+                             <span v-if="result.for_month == 1">Sausis</span>
+                             <span v-if="result.for_month == 2">Vasaris</span>
+                             <span v-if="result.for_month == 3">Kovas</span>
+                             <span v-if="result.for_month == 4">Balandis</span>
+                             <span v-if="result.for_month == 5">Gegužė</span>
+                             <span v-if="result.for_month == 6">Birželis</span>
+                             <span v-if="result.for_month == 7">Liepa</span>
+                             <span v-if="result.for_month == 8">Rugpjūtis</span>
+                             <span v-if="result.for_month == 9">Rugsėjis</span>
+                             <span v-if="result.for_month == 10">Spalis</span>
+                             <span v-if="result.for_month == 11">Lapkritis</span>
+                             <span v-if="result.for_month == 12">Gruodis</span>
+                             <span v-if="result.for_month == null">Rugsėjis</span>
+                           </td>
+                         </tr>
+                       </tbody>
+                     </table>
+         </div>
+      </div>
     </div>
   </div>
 </template>
@@ -84,7 +86,21 @@
   		return{
   			API_results: [],
         desptorResults: [],
-  		}
+        monthlyPayments: [],
+
+          options: {
+              chart: {
+                id: 'vuechart-example'
+              },
+              xaxis: {
+                categories: ['Rugsejis', 'Spalis', 'Lapkritis', 'Gruodis', 'Sausis', 'Kovas', 'Balandis', 'Geguze', 'Birzelis', 'Liepa', 'Rugjputis']
+              }
+            },
+            series: [{
+              name: 'series-1',
+              data: null,
+            }],
+          }
   	},
     mounted() {
 
@@ -92,9 +108,12 @@
           this.API_results = response.data;
         });
 
-      axios.get('/api/payments/deptors').then(response => {
-          this.desptorResults = response.data;
-        });
+      // axios.get('/api/payments/deptors').then(response => {
+      //     this.desptorResults = response.data;
+      //   });
+      axios.get('/api/stats/payments').then(response =>{
+        this.series[0].data = response.data.payments;
+      });
     }
   }
 </script>

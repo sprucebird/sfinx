@@ -12,14 +12,14 @@
 */
 //
 
-Route::domain('sfinx.lt')->group(function () {
+Route::domain('dev.sfinx.sprucebird.co/sfinx')->group(function () {
     Route::get('/', 'SignupsController@create')->name('SignupFormPublic');
     // Route::post('/', ['as' => '/', 'uses' => 'SignupsController@store'])->name('SignupFormPublicPublish');
     Route::post('/', 'SignupsController@store')->name('SignupFormPublicPublish');
 
 });
 
-Route::domain('dsms.sfinx.lt')->group(function () {
+Route::domain('dev.sfinx.sprucebird.co')->group(function () {
 
 
 // Route::get('/registracija', 'SignupsController@create')->name('SignupFormPublic');
@@ -53,7 +53,7 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::any('/api/search', "HomeController@search")->name('search');
 Route::get('/api/factory/signups/generate/{amount}', 'HomeController@signupGenerator');
 Route::get('api/stats/balance/{range}', 'StatisticsController@balanceHistory')->name('api.stats.balance');
-Route::get('api/stats/payments/{range}', 'StatisticsController@paymentsHistory')->name('api.stats.payments');
+Route::get('api/stats/payments/', 'StatisticsController@paymentsHistory')->name('api.stats.payments');
 Route::get('api/stats/economy/{range}', 'StatisticsController@economyHistory')->name('api.stats.economy');
 Route::get('api/stats/economy/income/{range}', 'StatisticsController@income_history')->name('api.stats.economy.income');
 Route::get('api/stats/members/count', 'StatisticsController@membersCount')->name('api.stats.members.count');

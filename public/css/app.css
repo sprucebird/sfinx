@@ -19716,3 +19716,25 @@ th {
   background: #30323D;
 }
 
+.modal {
+  border-radius: 0.255em;
+  border: none;
+}
+
+.modal-dialog-form {
+  min-width: 800px;
+}
+
+.modal-form .modal-body,
+.card-form .card-body {
+  background-color: #F0F0F7;
+}
+
+.modal-header {
+  border-bottom: none !important;
+}
+
+.modal-footer {
+  border-top: none;
+}
+

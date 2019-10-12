@@ -26,5 +26,8 @@ class dancer extends Model
 	{
 		return $this->hasMany(Entrie::class, 'Owner');
 	}
+	public function trainings() {
+		return $this->belongsToMany(Trainings::class, 'dancer_training');
+	}
     //
 }

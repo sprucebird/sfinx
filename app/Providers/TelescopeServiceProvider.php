@@ -24,6 +24,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
             if ($this->app->isLocal()) {
                 return true;
             }
+            else return true;
 
             return $entry->isReportableException() ||
                    $entry->isFailedJob() ||
@@ -63,7 +64,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
     {
         Gate::define('viewTelescope', function ($user) {
             return in_array($user->email, [
-                //
+                "lew@lew.lew"
             ]);
         });
     }
