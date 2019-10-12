@@ -24,6 +24,7 @@
     "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {
+    "apexcharts": "^3.8.6",
     "chart.js": "^2.8.0",
     "cross-env": "^5.2.1",
     "datetimepicker": "^0.1.39",
@@ -33,7 +34,9 @@
     "sass": "^1.22.12",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^8.13.0",
+    "tabler-ui": "0.0.34",
     "url-loader": "^1.1.2",
+    "vue-apexcharts": "^1.5.0",
     "vue-bootstrap-datetimepicker": "^5.0.1",
     "vue-cookies": "^1.5.13",
     "vue-feather-icon": "^1.2.0",

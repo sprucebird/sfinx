@@ -5,8 +5,8 @@
         <h3>Redaguoti nari</h3>
         <h1>{{fullName}}</h1>
         <span class="tag tag-green" v-if="balance > 0">Apmokėta</span>
-        <span class="tag tag-red" v-if="balance == 0">Neapmokėta</span>
-        <span class="tag tag-red" v-if="balance < 0">Skola!</span>
+        <span class="small-text" v-if="balance == 0">Apmokėta už praeitą mėnesį</span>
+        <span class="tag tag-red" v-if="balance < 0">Skola</span>
       </div>
     </div>
 
@@ -23,6 +23,7 @@
                                 </div>
                               <div class="col-md-4">
                                   <button @click="pay()" class="btn btn-primary">Naujas mokėjimas</button>
+                                  <button @click="entrie()" class="btn btn-secondary">Neturi kortelės</button>
                               </div>
                           </div>
           </div>
@@ -168,15 +169,10 @@
           <h4>Dar karta perziurekite raudonai pazymetus laukelius</h4>
         </div>
         <div class="card-header">
-          <h2>Mokejimu istorija</h2>
+          <h2>Mokėjimu istorija</h2>
         </div>
 
-        <!-- <div class="card-body">
-          <div class="col-md-12">
-
-
-          </div>
-        </div> -->
+        
       </div>
       </div>
     </div>
@@ -284,6 +280,17 @@
       },
       pay() {
         this.$parent.newPayment(this.MemberID, this.API_results);
+      },
+      entrie() {
+        axios.post('/rfid/scan', {
+          id: this.id,
+          RFID: 'none'
+        }).then(response => {
+          if (response.data.status == 'OK')
+          {
+            swal("Apsilankymas įrašytas sėkmingai", "Priminkite, kad kitą kartą pasiimtų kortelę", "success");
+          }
+        });
       }
     }
   }

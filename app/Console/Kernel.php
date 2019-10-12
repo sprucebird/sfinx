@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Console;
-use App\fees;
+use App\Fees;
 use App\payments;
 use App\paymentStatistics;
 use Illuminate\Console\Scheduling\Schedule;
@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function (){
             $dancers = \App\dancer::all();
             foreach ($dancers as $dancer) {
-                $fee = fees::create([
+                $fee = Fees::create([
                     'price' => $dancer->fee,
                     'owner' => $dancer->id,
                 ]);
@@ -48,7 +48,7 @@ class Kernel extends ConsoleKernel
             foreach ($fees as $fee) {
                 $feeSum+=$fee->price;
             }
-            $fees = fees::all();
+            $fees = Fees::all();
             $balance = calculateBalance($payments, $fees);
             $paymentStatistics = new paymentStatistics;
             $paymentStatistics->range = 'ALL';

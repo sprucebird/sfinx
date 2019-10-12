@@ -102,9 +102,20 @@ class PaymentsController extends Controller
         {
             return response()->json(['status' => 'FAILED', 'cause' => '1']);
         }
+        $member = dancer::where('id', $request->input('member'))->get();
+        $currentMonth = date('n');
+        if(calculateBalance_id($request->input('member')) < 0)
+        {
+           $currentMonth = date('n') - 1;
+        }
+        if(calculateBalance_id($request->input('member')) > 0)
+        {
+           $currentMonth = date('n') + 1;
+        }
             $payment = payments::create([
                 'member' => $request->input('member'),
                 'price' => $request->input('price'),
+                'for_month' => $currentMonth,
             ]);
 
             return response(['status' => 'OK']);

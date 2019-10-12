@@ -41,6 +41,15 @@ class RFIDController extends Controller
         $checker = Validator::make($Req->all(), [
         	'RFID' => 'required',
         ]);
+        // if($Req->RFID == 'none')
+        // {
+        //   $owner = dancer::where('id', $Req->id)->first();
+        //   $entrie = new Entrie;
+        //   $entrie->RFID = 000111;
+        //   $entrie->Owner = $owner->Owner;
+        //   $entrie->save();
+        //   return response()->json(['status' => 'OK']);
+        // }
         if($checker->fails()){
         	return response()->json(['status' => 'FAILED', 'cause' => 1]);
         }
@@ -65,9 +74,11 @@ class RFIDController extends Controller
           $entrie->Owner = $owner->Owner;
           $entrie->save();
 
-          //create new training
-          // $tempTraining = new Training;
-          // $tempTraining->groupID = $owner->dancer->groupID;
+          // $individualTraining = Trainings::where('created_at', Carbon::today())->where('group_id', $ownerData->group)->first();
+          // if(empty($individualTraining)){
+          //   $newTraining = new Trainings;
+          //   $newTraining->group_id = $ownerData->group;
+          // }
 
         }
 

@@ -8,6 +8,7 @@
 require('./bootstrap');
 import swal from 'sweetalert';
 
+
 const feather = require('feather-icons')
 feather.replace();
 
@@ -39,7 +40,9 @@ import axios from 'axios';
 // Vue.config.debug = false;
 // Vue.config.silent = true;
 
+import VueApexCharts from 'vue-apexcharts'
 
+Vue.component('apexchart', VueApexCharts)
 
 // 1. Define route components.
 // These can be imported from other files
@@ -62,6 +65,7 @@ import membersAdd from './components/members-add.vue';
 import memberEdit from './components/members-edit.vue';
 import userAdd from './components/user-add.vue';
 import users from './components/users.vue';
+import search from './components/searchDialog.vue';
 // 0. If using a module system (e.g. via vue-cli), import Vue and VueRouter
 // and then call `Vue.use(VueRouter)`.
 
@@ -89,6 +93,7 @@ const routes = [
   { path: '/signups/confirm/:id', component: membersAdd},
   { path: '/settings/users', component: users},
   { path: '/settings/users/create', component: userAdd},
+  { path: '/search', component: search},
 ]
 
 // 3. Create the router instance and pass the `routes` option
@@ -150,6 +155,23 @@ const app = new Vue({
 
   },
   methods: {
+    makeSearch: function (){
+      if(this.q == ''){
+        this.search_results = null;
+      }else{
+        axios.post('/api/search', {
+          searchQ: this.q,
+        }).then(response => {
+          this.search_results = response.data;
+          if(this.search_results.status == "error"){
+            this.search_status = false;
+          }else{
+            this.search_status = true;
+          }
+        });
+      }
+
+    },
     cook() {
         if($cookies.isKey("dark")) this.dark = ($cookies.get("dark") == "true" ? true : false);
         else $cookies.set("dark", false);

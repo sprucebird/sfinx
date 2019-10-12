@@ -175,9 +175,9 @@
               <div class="secondSide">
                           <div class="items">
                             {{-- <input class="form-control" type="checkbox" v-model="dark" @change="cdark()"> DARK MODE</input> --}}
-                            <a href="#" class="item" @click="showSearchModal = true">
+                            <router-link to="/search" class="item" data-toggle="tooltip" title="Main">
                                 <span data-feather="search" class="icon"></span>
-                            </a>
+                            </router-link>
                             <a class="item">
                                 <span data-feather="user" class="icon"></span>
                                 {{Auth::user()->name}}

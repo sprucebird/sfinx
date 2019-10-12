@@ -117,25 +117,21 @@ class StatisticsController extends Controller
         //
     }
 
-    public function paymentsHistory($range)
+    public function paymentsHistory()
     {
-            $JSONed = [];
-            $months = [];
-            $payments;
-            for ($i=1; $i < 13; $i++) {
-                $payments = paymentStatistics::where('range', 'ALL')->where('month', $i)->first();
-                if(!empty($payments)){
-                    array_push($months, $i);
-                    array_push($JSONed, $payments->payments);
-                }
+            $PaymentsSumMonth = 0;
+            $paymentsSum = [];
+            for($i = 1; $i<=12; $i++)
+            {
+              $date = '0' + $i;
+              $monthPayments = payments::whereRaw('MONTH(created_at) = ?', [$date])->get();
+              foreach ($monthPayments as $sp) {
+                $PaymentsSumMonth+=$sp->price;
+              }
+                array_push($paymentsSum, $PaymentsSumMonth);
             }
 
-            // foreach ($payments as $balance)
-            // {
-            //     array_push($months, $balance->month);
-            //     array_push($JSONed, $balance->payments);
-            // }
-            return response()->json(['months' => $months, 'payments' => $JSONed]);
+            return response()->json($paymentsSum);
     }
 
     public function economyHistory($range)
