@@ -1948,18 +1948,56 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      API_results: []
+      API_results: [],
+      attend: 0,
+      nonActive: [],
+      inactive: 0
     };
+  },
+  methods: {
+    grey: function grey() {
+      this.$refs["nonActive"].style.background = "grey";
+    }
   },
   mounted: function mounted() {
     var _this = this;
 
-    axios.get('api/entries/all').then(function (response) {
-      _this.API_results = response.data.entries;
+    axios.get('api/trainings/all').then(function (response) {
+      _this.API_results = response.data.trainings;
+      _this.attend = response.data.attend;
+      _this.nonActive = response.data.nonActive;
+      _this.inactive = response.data.inactive;
     });
+  },
+  watch: {
+    inactive: function inactive(val, old) {
+      if (parseInt(val) < 1 || val == "") {
+        this.inactive = 1;
+        return;
+      }
+
+      axios.post('/api/inactive', {
+        val: val
+      });
+    }
   }
 });
 
@@ -3210,6 +3248,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3229,6 +3268,13 @@ __webpack_require__.r(__webpack_exports__);
     */
     showEditDialog: function showEditDialog(id) {
       this.$router.push('/members/edit/' + id);
+    },
+    scroll: function scroll(ref) {
+      var el = this.$refs[ref];
+      window.scrollTo({
+        top: el.offsetTop,
+        behavior: 'smooth'
+      });
     },
     changeMembersGroup: function changeMembersGroup(id, member) {
       var _this = this;
@@ -3672,6 +3718,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3713,6 +3783,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this2 = this;
 
+    this.$refs['search'].focus();
     axios.get('api/stats/signups/1').then(function (response) {
       _this2.signupsCount = response.data.count;
       _this2.signupsCount_date = response.data.date;
@@ -8535,7 +8606,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\nspan[data-v-70c3d3c4], select[data-v-70c3d3c4], label[data-v-70c3d3c4], option[data-v-70c3d3c4] {\n  cursor: pointer;\n}\n.dropdown-item[data-v-70c3d3c4] {\n  cursor: pointer;\n}\n\n", ""]);
+exports.push([module.i, "\nhtml[data-v-70c3d3c4] {\n  scroll-behavior: smooth;\n}\nspan[data-v-70c3d3c4], select[data-v-70c3d3c4], label[data-v-70c3d3c4], option[data-v-70c3d3c4] {\n  cursor: pointer;\n}\n.dropdown-item[data-v-70c3d3c4] {\n  cursor: pointer;\n}\n\n", ""]);
 
 // exports
 
@@ -74941,299 +75012,452 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "page-content justify-content-center mt-4" }, [
+      _c("div", { staticClass: "pl-3 row" }, [
+        _c("div", { staticClass: "card col-md-3" }, [
+          _c("div", { staticClass: "card-body text-center" }, [
+            _c("div", { staticClass: "h6" }, [_vm._v("Studijos lankomumas")]),
+            _vm._v(" "),
+            _c("h1", { staticClass: "font-weight-bold mb-4" }, [
+              _vm._v(_vm._s(_vm.attend) + "%")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "progress progress-sm" }, [
+              _c("div", {
+                staticClass: "progress-bar bg-yellow",
+                style: { width: _vm.attend + "%" }
+              })
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            ref: "nonActive",
+            staticClass: "card col-md-3",
+            staticStyle: { transition: "all 0.5s ease" }
+          },
+          [
+            _c("div", { staticClass: "card-body text-center" }, [
+              _c("div", { staticClass: "h6" }, [_vm._v("Neaktyvūs nariai")]),
+              _vm._v(" "),
+              _c("h1", { staticClass: "font-weight-bold mb-4" }, [
+                _vm._v(
+                  _vm._s(_vm.nonActive.first) +
+                    "/" +
+                    _vm._s(_vm.nonActive.second)
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "progress progress-sm" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-red",
+                  style: {
+                    width:
+                      (_vm.nonActive.first / _vm.nonActive.second) * 100 + "%"
+                  }
+                })
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "card col-md-3" }, [
+          _c("div", { staticClass: "card-body text-center" }, [
+            _c("div", { staticClass: "h6" }, [
+              _vm._v(
+                "Narys laikomas neaktyviu, jei paskutinį kartą lankėsi prieš:  "
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group text-center" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.inactive,
+                    expression: "inactive"
+                  }
+                ],
+                staticClass: "form-control col-md-5",
+                attrs: { type: "number" },
+                domProps: { value: _vm.inactive },
+                on: {
+                  change: _vm.grey,
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.inactive = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm._m(1)
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card big mt-5" }, [
+        _c("div", { staticClass: "card-header" }, [
+          _vm._v("\n        Įvykusios treniruotės\n      ")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "table-responsisve" }, [
+            _c(
+              "table",
+              {
+                staticClass:
+                  "table card-table table-vcenter text-nowrap datatable dataTable no-footer",
+                attrs: {
+                  id: "DataTables_Table_0",
+                  role: "grid",
+                  "aria-describedby": "DataTables_Table_0_info"
+                }
+              },
+              [
+                _vm._m(2),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.API_results, function(training) {
+                    return _c(
+                      "tr",
+                      { staticClass: "odd", attrs: { role: "row" } },
+                      [
+                        _c("td", [
+                          _c("div", [
+                            _vm._v(
+                              "\n                              " +
+                                _vm._s(training.group.groupName) +
+                                "\n                            "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "small text-muted" }, [
+                            _vm._v(
+                              "\n                              " +
+                                _vm._s(training.group.leader) +
+                                "\n                            "
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(training.created_at.split(" ")[0]) +
+                              "\n                          "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("div", [
+                            _c("span", { staticClass: "tag tag-grey mr-1" }, [
+                              _vm._v(_vm._s(training.start))
+                            ]),
+                            _vm._v(" "),
+                            _c("span", { staticClass: "text-muted" }, [
+                              _vm._v("-")
+                            ]),
+                            _vm._v(" "),
+                            _c("span", { staticClass: "tag tag-grey ml-1" }, [
+                              _vm._v(_vm._s(training.end))
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("div", { staticClass: "clearfix" }, [
+                            _c("div", { staticClass: "float-left" }, [
+                              _c("strong", [_vm._v(_vm._s(training.was) + "%")])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "float-right" }, [
+                              _c("small", { staticClass: "text-muted" }, [
+                                _vm._v(
+                                  "nuo " + _vm._s(training.start) + " iki 00:00"
+                                )
+                              ])
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "progress progress-xs" }, [
+                            parseFloat(training.was) > 66
+                              ? _c("div", {
+                                  staticClass: "progress-bar bg-green",
+                                  style: {
+                                    width: parseFloat(training.was) + "%"
+                                  },
+                                  attrs: {
+                                    role: "progressbar",
+                                    "aria-valuenow": "62",
+                                    "aria-valuemin": "0",
+                                    "aria-valuemax": "100"
+                                  }
+                                })
+                              : _vm._e(),
+                            _vm._v(" "),
+                            parseFloat(training.was) > 33 &&
+                            parseFloat(training.was) < 66
+                              ? _c("div", {
+                                  staticClass: "progress-bar bg-yellow",
+                                  style: {
+                                    width: parseFloat(training.was) + "%"
+                                  },
+                                  attrs: {
+                                    role: "progressbar",
+                                    "aria-valuenow": "62",
+                                    "aria-valuemin": "0",
+                                    "aria-valuemax": "100"
+                                  }
+                                })
+                              : _vm._e(),
+                            _vm._v(" "),
+                            parseFloat(training.was) < 33
+                              ? _c("div", {
+                                  staticClass: "progress-bar bg-red",
+                                  style: {
+                                    width: parseFloat(training.was) + "%"
+                                  },
+                                  attrs: {
+                                    role: "progressbar",
+                                    "aria-valuenow": "62",
+                                    "aria-valuemin": "0",
+                                    "aria-valuemax": "100"
+                                  }
+                                })
+                              : _vm._e()
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c("div", { staticClass: "clearfix" }, [
+                            _c("div", { staticClass: "float-left" }, [
+                              _c("strong", [
+                                _vm._v(_vm._s(training.not) + " narių")
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "float-right" }, [
+                              _c("small", { staticClass: "text-muted" }, [
+                                _vm._v(
+                                  "tai yra " +
+                                    _vm._s(training.not_in_p) +
+                                    "% visų grupės narių"
+                                )
+                              ])
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "progress progress-xs" }, [
+                            parseFloat(training.not_in_p) >= 80
+                              ? _c("div", {
+                                  staticClass: "progress-bar bg-red",
+                                  style: {
+                                    width: parseFloat(training.not_in_p) + "%"
+                                  },
+                                  attrs: {
+                                    role: "progressbar",
+                                    "aria-valuenow": "62",
+                                    "aria-valuemin": "0",
+                                    "aria-valuemax": "100"
+                                  }
+                                })
+                              : _vm._e(),
+                            _vm._v(" "),
+                            parseFloat(training.not_in_p) > 40 &&
+                            parseFloat(training.not_in_p) < 80
+                              ? _c("div", {
+                                  staticClass: "progress-bar bg-yellow",
+                                  style: {
+                                    width: parseFloat(training.not_in_p) + "%"
+                                  },
+                                  attrs: {
+                                    role: "progressbar",
+                                    "aria-valuenow": "62",
+                                    "aria-valuemin": "0",
+                                    "aria-valuemax": "100"
+                                  }
+                                })
+                              : _vm._e(),
+                            _vm._v(" "),
+                            parseFloat(training.not_in_p) <= 40
+                              ? _c("div", {
+                                  staticClass: "progress-bar bg-green",
+                                  style: {
+                                    width: parseFloat(training.not_in_p) + "%"
+                                  },
+                                  attrs: {
+                                    role: "progressbar",
+                                    "aria-valuenow": "62",
+                                    "aria-valuemin": "0",
+                                    "aria-valuemax": "100"
+                                  }
+                                })
+                              : _vm._e()
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(3, true)
+                      ]
+                    )
+                  }),
+                  0
+                )
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "page-header mb-1" }, [
-        _c("div", { staticClass: "description" }, [
-          _c("h3", [_vm._v("Praėjimo kontrolė")]),
-          _vm._v(" "),
-          _c("h1", [_vm._v("Treniruočių statistika")])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "page-content justify-content-center mt-4" }, [
-        _c("div", { staticClass: "pl-3 row" }, [
-          _c("div", { staticClass: "card col-md-3" }, [
-            _c("div", { staticClass: "card-body text-center" }, [
-              _c("div", { staticClass: "h6" }, [_vm._v("Studijos lankomumas")]),
-              _vm._v(" "),
-              _c("h1", { staticClass: "font-weight-bold mb-4" }, [
-                _vm._v("78%")
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "progress progress-sm" }, [
-                _c("div", {
-                  staticClass: "progress-bar bg-yellow",
-                  staticStyle: { width: "78%" }
-                })
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card col-md-3" }, [
-            _c("div", { staticClass: "card-body text-center" }, [
-              _c("div", { staticClass: "h6" }, [_vm._v("Neaktyvūs nariai")]),
-              _vm._v(" "),
-              _c("h1", { staticClass: "font-weight-bold mb-4" }, [
-                _vm._v("12%")
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "progress progress-sm" }, [
-                _c("div", {
-                  staticClass: "progress-bar bg-red",
-                  staticStyle: { width: "12%" }
-                })
-              ])
-            ])
-          ])
-        ]),
+    return _c("div", { staticClass: "page-header mb-1" }, [
+      _c("div", { staticClass: "description" }, [
+        _c("h3", [_vm._v("Praėjimo kontrolė")]),
         _vm._v(" "),
-        _c("div", { staticClass: "card big mt-5" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v("\n        Įvykusios treniruotės\n      ")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _c("div", { staticClass: "table-responsisve" }, [
-              _c(
-                "table",
-                {
-                  staticClass:
-                    "table card-table table-vcenter text-nowrap datatable dataTable no-footer",
-                  attrs: {
-                    id: "DataTables_Table_0",
-                    role: "grid",
-                    "aria-describedby": "DataTables_Table_0_info"
-                  }
-                },
-                [
-                  _c("thead", [
-                    _c("tr", { attrs: { role: "row" } }, [
-                      _c(
-                        "th",
-                        {
-                          staticClass: "sorting",
-                          staticStyle: { width: "200px" },
-                          attrs: {
-                            tabindex: "0",
-                            "aria-controls": "DataTables_Table_0",
-                            rowspan: "1",
-                            colspan: "1",
-                            "aria-label":
-                              "VAT No.: activate to sort column ascending"
-                          }
-                        },
-                        [_vm._v("Treniruotė")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "th",
-                        {
-                          staticClass: "sorting",
-                          staticStyle: { width: "100px" },
-                          attrs: {
-                            tabindex: "0",
-                            "aria-controls": "DataTables_Table_0",
-                            rowspan: "1",
-                            colspan: "1",
-                            "aria-label":
-                              "Invoice Subject: activate to sort column ascending"
-                          }
-                        },
-                        [_vm._v("Data")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "th",
-                        {
-                          staticClass: "sorting",
-                          staticStyle: { width: "150px" },
-                          attrs: {
-                            tabindex: "0",
-                            "aria-controls": "DataTables_Table_0",
-                            rowspan: "1",
-                            colspan: "1",
-                            "aria-label":
-                              "Invoice Subject: activate to sort column ascending"
-                          }
-                        },
-                        [_vm._v("Laikas")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "th",
-                        {
-                          staticClass: "sorting",
-                          staticStyle: { width: "200px" },
-                          attrs: {
-                            tabindex: "0",
-                            "aria-controls": "DataTables_Table_0",
-                            rowspan: "1",
-                            colspan: "1",
-                            "aria-label":
-                              "Status: activate to sort column ascending"
-                          }
-                        },
-                        [_vm._v("Apsilankė %")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "th",
-                        {
-                          staticClass: "sorting",
-                          staticStyle: { width: "200px" },
-                          attrs: {
-                            tabindex: "0",
-                            "aria-controls": "DataTables_Table_0",
-                            rowspan: "1",
-                            colspan: "1",
-                            "aria-label":
-                              "Status: activate to sort column ascending"
-                          }
-                        },
-                        [_vm._v("Neapsilankė narių")]
-                      ),
-                      _vm._v(" "),
-                      _c("th", {
-                        staticClass: "sorting",
-                        staticStyle: { width: "150px" },
-                        attrs: {
-                          tabindex: "0",
-                          "aria-controls": "DataTables_Table_0",
-                          rowspan: "1",
-                          colspan: "1",
-                          "aria-label":
-                            "Status: activate to sort column ascending"
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("tbody", [
-                    _c("tr", { staticClass: "odd", attrs: { role: "row" } }, [
-                      _c("td", [
-                        _c("div", [
-                          _vm._v(
-                            "\n                              Sfinx Squad\n                            "
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "small text-muted" }, [
-                          _vm._v(
-                            "\n                              21 nariai\n                            "
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(
-                          "\n                            2019-10-12\n                          "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("div", [
-                          _c("span", { staticClass: "tag tag-grey mr-1" }, [
-                            _vm._v("14:57")
-                          ]),
-                          _vm._v(" "),
-                          _c("span", { staticClass: "text-muted" }, [
-                            _vm._v("-")
-                          ]),
-                          _vm._v(" "),
-                          _c("span", { staticClass: "tag tag-grey ml-1" }, [
-                            _vm._v("15:57")
-                          ])
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("div", { staticClass: "clearfix" }, [
-                          _c("div", { staticClass: "float-left" }, [
-                            _c("strong", [_vm._v("62%")])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "float-right" }, [
-                            _c("small", { staticClass: "text-muted" }, [
-                              _vm._v("nuo 14:41 iki 00:00")
-                            ])
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "progress progress-xs" }, [
-                          _c("div", {
-                            staticClass: "progress-bar bg-green",
-                            staticStyle: { width: "62%" },
-                            attrs: {
-                              role: "progressbar",
-                              "aria-valuenow": "62",
-                              "aria-valuemin": "0",
-                              "aria-valuemax": "100"
-                            }
-                          })
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("div", { staticClass: "clearfix" }, [
-                          _c("div", { staticClass: "float-left" }, [
-                            _c("strong", [_vm._v("3 narių")])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "float-right" }, [
-                            _c("small", { staticClass: "text-muted" }, [
-                              _vm._v("tai yra 12% visų grupės narių")
-                            ])
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "progress progress-xs" }, [
-                          _c("div", {
-                            staticClass: "progress-bar bg-yellow",
-                            staticStyle: { width: "12%" },
-                            attrs: {
-                              role: "progressbar",
-                              "aria-valuenow": "12",
-                              "aria-valuemin": "0",
-                              "aria-valuemax": "100"
-                            }
-                          })
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "text-center" }, [
-                        _c("div", { staticClass: "item-action dropdown" }, [
-                          _c(
-                            "a",
-                            {
-                              staticClass: "icon",
-                              attrs: {
-                                href: "javascript:void(0)",
-                                "data-toggle": "dropdown"
-                              }
-                            },
-                            [
-                              _c("i", {
-                                staticClass: "icon fe fe-activity mr-3"
-                              }),
-                              _vm._v(" Plačiau")
-                            ]
-                          )
-                        ])
-                      ])
-                    ])
-                  ])
-                ]
-              )
-            ])
-          ])
-        ])
+        _c("h1", [_vm._v("Treniruočių statistika")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-append text-center" }, [
+      _c("span", { staticClass: "input-group-text h3" }, [_vm._v("dienų")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", { attrs: { role: "row" } }, [
+        _c(
+          "th",
+          {
+            staticClass: "sorting",
+            staticStyle: { width: "200px" },
+            attrs: {
+              tabindex: "0",
+              "aria-controls": "DataTables_Table_0",
+              rowspan: "1",
+              colspan: "1",
+              "aria-label": "VAT No.: activate to sort column ascending"
+            }
+          },
+          [_vm._v("Treniruotė")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "sorting",
+            staticStyle: { width: "100px" },
+            attrs: {
+              tabindex: "0",
+              "aria-controls": "DataTables_Table_0",
+              rowspan: "1",
+              colspan: "1",
+              "aria-label": "Invoice Subject: activate to sort column ascending"
+            }
+          },
+          [_vm._v("Data")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "sorting",
+            staticStyle: { width: "150px" },
+            attrs: {
+              tabindex: "0",
+              "aria-controls": "DataTables_Table_0",
+              rowspan: "1",
+              colspan: "1",
+              "aria-label": "Invoice Subject: activate to sort column ascending"
+            }
+          },
+          [_vm._v("Laikas")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "sorting",
+            staticStyle: { width: "200px" },
+            attrs: {
+              tabindex: "0",
+              "aria-controls": "DataTables_Table_0",
+              rowspan: "1",
+              colspan: "1",
+              "aria-label": "Status: activate to sort column ascending"
+            }
+          },
+          [_vm._v("Apsilankė %")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "sorting",
+            staticStyle: { width: "200px" },
+            attrs: {
+              tabindex: "0",
+              "aria-controls": "DataTables_Table_0",
+              rowspan: "1",
+              colspan: "1",
+              "aria-label": "Status: activate to sort column ascending"
+            }
+          },
+          [_vm._v("Neapsilankė narių")]
+        ),
+        _vm._v(" "),
+        _c("th", {
+          staticClass: "sorting",
+          staticStyle: { width: "150px" },
+          attrs: {
+            tabindex: "0",
+            "aria-controls": "DataTables_Table_0",
+            rowspan: "1",
+            colspan: "1",
+            "aria-label": "Status: activate to sort column ascending"
+          }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { staticClass: "text-center" }, [
+      _c("div", { staticClass: "item-action dropdown" }, [
+        _c(
+          "a",
+          {
+            staticClass: "icon",
+            attrs: { href: "javascript:void(0)", "data-toggle": "dropdown" }
+          },
+          [
+            _c("i", { staticClass: "icon fe fe-activity mr-3" }),
+            _vm._v(" Plačiau")
+          ]
+        )
       ])
     ])
   }
@@ -77584,7 +77808,22 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "page-content justify-content-center" }, [
       _c("div", { staticClass: "card big" }, [
-        _vm._m(2),
+        _c("div", { staticClass: "card-header flex-s" }, [
+          _c("h2", { staticClass: "vertical-align" }, [_vm._v("Nariai")]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "text-right btn-sm btn btn-warning text-dark",
+              on: {
+                click: function($event) {
+                  return _vm.scroll("debt")
+                }
+              }
+            },
+            [_vm._v("Skolingi nariai")]
+          )
+        ]),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
           _vm.API_results.length == null ||
@@ -77603,7 +77842,7 @@ var render = function() {
                     "table table-hover table-outline table-vcenter text-nowrap card-table"
                 },
                 [
-                  _vm._m(3),
+                  _vm._m(2),
                   _vm._v(" "),
                   _c(
                     "tbody",
@@ -77724,7 +77963,7 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [
                           _c("div", { staticClass: "item-action dropdown" }, [
-                            _vm._m(4, true),
+                            _vm._m(3, true),
                             _vm._v(" "),
                             _c(
                               "div",
@@ -77842,7 +78081,7 @@ var render = function() {
                                         ]
                                       ),
                                       _vm._v(" "),
-                                      _vm._m(5, true)
+                                      _vm._m(4, true)
                                     ]),
                                     _vm._v(" "),
                                     _c("div", { staticClass: "modal-body" }, [
@@ -77872,7 +78111,7 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "card big mt-5" }, [
+      _c("div", { ref: "debt", staticClass: "card big mt-5" }, [
         _c("div", { staticClass: "card-header" }, [
           _vm._v("\n              Skolingi nariai\n            ")
         ]),
@@ -77885,7 +78124,7 @@ var render = function() {
                   "table table-hover table-outline table-vcenter text-nowrap card-table"
               },
               [
-                _vm._m(6),
+                _vm._m(5),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -77997,7 +78236,7 @@ var render = function() {
                           _vm._v(" "),
                           _c("td", [
                             _c("div", { staticClass: "item-action dropdown" }, [
-                              _vm._m(7, true),
+                              _vm._m(6, true),
                               _vm._v(" "),
                               _c(
                                 "div",
@@ -78111,14 +78350,6 @@ var staticRenderFns = [
       _c("h2", [_vm._v("Iš viso narių")]),
       _vm._v(" "),
       _c("h3", [_vm._v("registruota sistemoje")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header flex-s" }, [
-      _c("h2", { staticClass: "vertical-align" }, [_vm._v("Nariai")])
     ])
   },
   function() {
@@ -78723,6 +78954,7 @@ var render = function() {
           directives: [
             { name: "model", rawName: "v-model", value: _vm.q, expression: "q" }
           ],
+          ref: "search",
           staticClass: "form-control form-control-search",
           attrs: { type: "text" },
           domProps: { value: _vm.q },
@@ -78741,56 +78973,122 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "justify-content-center" }, [
-        _c(
-          "div",
-          { staticClass: "mb-4" },
-          _vm._l(_vm.search_results, function(result) {
-            return _vm.search_status == true
-              ? _c("div", { staticClass: "search-result mb-3" }, [
-                  _c(
-                    "div",
-                    [
-                      _c(
-                        "h2",
-                        [
+        _vm.search_results != null
+          ? _c(
+              "div",
+              { staticClass: "mb-4" },
+              [
+                _vm._l(_vm.search_results.members, function(result) {
+                  return _vm.search_status == true
+                    ? _c("div", { staticClass: "search-result mb-3" }, [
+                        _c("div", [
                           _c(
-                            "router-link",
-                            {
-                              staticClass: "item",
-                              attrs: {
-                                to: { name: "edit", params: { id: result.id } }
-                              }
-                            },
+                            "h2",
                             [
-                              _vm._v(
-                                _vm._s(result.firstName) +
-                                  " " +
-                                  _vm._s(result.lastName)
+                              _c(
+                                "router-link",
+                                {
+                                  staticClass: "item",
+                                  attrs: {
+                                    to: {
+                                      name: "edit",
+                                      params: { id: result.id }
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    _vm._s(result.firstName) +
+                                      " " +
+                                      _vm._s(result.lastName)
+                                  )
+                                ]
                               )
-                            ]
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("router-link", {
-                        staticClass: "tag tag-red",
-                        attrs: {
-                          to: "{path: '/member/edit/', params: {id: result.id}"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("h5", { staticClass: "mt-2" })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _vm._m(1, true)
-                ])
-              : _vm._e()
-          }),
-          0
-        )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("h5", { staticClass: "mt-2" })
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(1, true)
+                      ])
+                    : _vm._e()
+                }),
+                _vm._v(" "),
+                _vm._l(_vm.search_results.groups, function(result) {
+                  return _vm.search_status == true
+                    ? _c("div", { staticClass: "search-result mb-3" }, [
+                        _c("div", [
+                          _c(
+                            "h2",
+                            [
+                              _c(
+                                "router-link",
+                                {
+                                  staticClass: "item",
+                                  attrs: {
+                                    to: {
+                                      name: "group",
+                                      params: { id: result.id }
+                                    }
+                                  }
+                                },
+                                [_vm._v(_vm._s(result.groupName))]
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("h5", { staticClass: "mt-2" })
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(2, true)
+                      ])
+                    : _vm._e()
+                }),
+                _vm._v(" "),
+                _vm._l(_vm.search_results.signups, function(result) {
+                  return _vm.search_status == true
+                    ? _c("div", { staticClass: "search-result mb-3" }, [
+                        _c("div", [
+                          _c(
+                            "h2",
+                            [
+                              _c(
+                                "router-link",
+                                {
+                                  staticClass: "item",
+                                  attrs: {
+                                    to: {
+                                      name: "sign_confirm",
+                                      params: { id: result.id }
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    _vm._s(result.firstName) +
+                                      " " +
+                                      _vm._s(result.lastName)
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("h5", { staticClass: "mt-2" })
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(3, true)
+                      ])
+                    : _vm._e()
+                })
+              ],
+              2
+            )
+          : _vm._e()
       ])
     ])
   ])
@@ -78813,6 +79111,30 @@ var staticRenderFns = [
         "label",
         { staticClass: "bg-label bg-label-search bg-label-search-success" },
         [_vm._v("Narys")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c(
+        "label",
+        { staticClass: "bg-label bg-label-search bg-label-search-warning" },
+        [_vm._v("Grupė")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c(
+        "label",
+        { staticClass: "bg-label bg-label-search bg-label-search-danger" },
+        [_vm._v("Registracija")]
       )
     ])
   }
@@ -94551,7 +94873,7 @@ module.exports = function(module) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_Vue, Vue) {/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
+/* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_Vue, Vue, $) {/* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert */ "./node_modules/sweetalert/dist/sweetalert.min.js");
 /* harmony import */ var sweetalert__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var vue_cookies__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-cookies */ "./node_modules/vue-cookies/vue-cookies.js");
@@ -94660,7 +94982,8 @@ var routes = [{
   component: _components_groups_create_vue__WEBPACK_IMPORTED_MODULE_17__["default"]
 }, {
   path: '/groups/update/:id',
-  component: _components_groups_update_vue__WEBPACK_IMPORTED_MODULE_11__["default"]
+  component: _components_groups_update_vue__WEBPACK_IMPORTED_MODULE_11__["default"],
+  name: 'group'
 }, {
   path: '/payments',
   component: _components_payments_vue__WEBPACK_IMPORTED_MODULE_15__["default"]
@@ -94683,7 +95006,8 @@ var routes = [{
   name: 'edit'
 }, {
   path: '/signups/confirm/:id',
-  component: _components_members_add_vue__WEBPACK_IMPORTED_MODULE_18__["default"]
+  component: _components_members_add_vue__WEBPACK_IMPORTED_MODULE_18__["default"],
+  name: 'sign_confirm'
 }, {
   path: '/settings/users',
   component: _components_users_vue__WEBPACK_IMPORTED_MODULE_21__["default"]
@@ -94795,7 +95119,8 @@ var app = new Vue({
       }).then(function (value) {
         if (value != null) {
           axios__WEBPACK_IMPORTED_MODULE_5___default.a.post("/rfid/scan", {
-            RFID: value
+            RFID: value,
+            scanOnly: true
           }).then(function (response) {
             if (response.data.status == "OK") {
               _this3.$router.push({
@@ -94902,7 +95227,13 @@ var app = new Vue({
 // 		});
 //     });
 // });
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js"), __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js")))
+
+$(document).ready(function () {
+  $("#sideNavigation").hover(function () {
+    $('#sideNavigation').css('width', '220px');
+  });
+});
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js"), __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js"), __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Trainings extends Model
 {
     public function group() {
-      return $this->belongsTo(groups::class, 'group', 'id');
+      return $this->belongsTo(groups::class, 'groupID', 'id');
     }
 
     public function dancers() {

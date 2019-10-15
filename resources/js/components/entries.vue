@@ -3,7 +3,6 @@
 	<div class="page-header mb-1">
       <div class="description">
         <h3>Praėjimo kontrolė</h3>
-
         <h1>Treniruočių statistika</h1>
       </div>
   </div>
@@ -12,19 +11,31 @@
       <div class="card col-md-3">
         <div class="card-body text-center">
             <div class="h6">Studijos lankomumas</div>
-            <h1 class="font-weight-bold mb-4">78%</h1>
+            <h1 class="font-weight-bold mb-4">{{attend}}%</h1>
               <div class="progress progress-sm">
-                  <div class="progress-bar bg-yellow" style="width: 78%"></div>
+                  <div class="progress-bar bg-yellow" :style="{width: attend + '%'}"></div>
+              </div>
+        </div>
+      </div>
+      <div class="card col-md-3" ref="nonActive" style="transition: all 0.5s ease;">
+        <div class="card-body text-center">
+            <div class="h6">Neaktyvūs nariai</div>
+            <h1 class="font-weight-bold mb-4">{{nonActive.first}}/{{nonActive.second}}</h1>
+              <div class="progress progress-sm">
+                  <div class="progress-bar bg-red" :style="{width: (nonActive.first/nonActive.second*100)+'%'}"></div>
               </div>
         </div>
       </div>
       <div class="card col-md-3">
         <div class="card-body text-center">
-            <div class="h6">Neaktyvūs nariai</div>
-            <h1 class="font-weight-bold mb-4">12%</h1>
-              <div class="progress progress-sm">
-                  <div class="progress-bar bg-red" style="width: 12%"></div>
+            <div class="h6">Narys laikomas neaktyviu, jei paskutinį kartą lankėsi prieš:  </div>
+            <div class="input-group text-center">
+              <input type="number" class="form-control col-md-5" v-model="inactive" @change="grey">
+
+              <div class="input-group-append text-center">
+                <span class="input-group-text h3">dienų</span>
               </div>
+          </div>
         </div>
       </div>
     </div>
@@ -46,49 +57,53 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr role="row" class="odd">
+                        <tr role="row" class="odd" v-for="training in API_results">
                           <td>
                             <div>
-                              Sfinx Squad
+                              {{training.group.groupName}}
                             </div>
                             <div class="small text-muted">
-                              21 nariai
+                              {{training.group.leader}}
                             </div>
                           </td>
                           <td>
-                            2019-10-12
+                            {{(training.created_at.split(' '))[0]}}
                           </td>
                           <td>
                             <div>
-                              <span class="tag tag-grey mr-1">14:57</span>
+                              <span class="tag tag-grey mr-1">{{training.start}}</span>
                               <span class="text-muted">-</span>
-                              <span class="tag tag-grey ml-1">15:57</span>
+                              <span class="tag tag-grey ml-1">{{training.end}}</span>
                             </div>
                           </td>
                           <td>
                             <div class="clearfix">
                               <div class="float-left">
-                                <strong>62%</strong>
+                                <strong>{{training.was}}%</strong>
                               </div>
                               <div class="float-right">
-                                <small class="text-muted">nuo 14:41 iki 00:00</small>
+                                <small class="text-muted">nuo {{training.start}} iki 00:00</small>
                               </div>
                             </div>
                             <div class="progress progress-xs">
-                              <div class="progress-bar bg-green" role="progressbar" style="width: 62%" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
+                              <div v-if="parseFloat(training.was) > 66" class="progress-bar bg-green" role="progressbar" v-bind:style="{width: parseFloat(training.was) + '%' }" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
+                              <div v-if="parseFloat(training.was) > 33 && parseFloat(training.was) < 66" class="progress-bar bg-yellow" role="progressbar" v-bind:style="{width: parseFloat(training.was) + '%' }" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
+                              <div v-if="parseFloat(training.was) < 33" class="progress-bar bg-red" role="progressbar" v-bind:style="{width: parseFloat(training.was) + '%' }" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                           </td>
                           <td>
                             <div class="clearfix">
                               <div class="float-left">
-                                <strong>3 narių</strong>
+                                <strong>{{training.not}} narių</strong>
                               </div>
                               <div class="float-right">
-                                <small class="text-muted">tai yra 12% visų grupės narių</small>
+                                <small class="text-muted">tai yra {{training.not_in_p}}% visų grupės narių</small>
                               </div>
                             </div>
                             <div class="progress progress-xs">
-                              <div class="progress-bar bg-yellow" role="progressbar" style="width: 12%" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
+                              <div v-if="parseFloat(training.not_in_p) >= 80" class="progress-bar bg-red" role="progressbar" v-bind:style="{width: parseFloat(training.not_in_p) + '%' }" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
+                              <div v-if="parseFloat(training.not_in_p) > 40 && parseFloat(training.not_in_p) < 80" class="progress-bar bg-yellow" role="progressbar" v-bind:style="{width: parseFloat(training.not_in_p) + '%' }" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
+                              <div v-if="parseFloat(training.not_in_p) <= 40" class="progress-bar bg-green" role="progressbar" v-bind:style="{width: parseFloat(training.not_in_p) + '%' }" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                           </td>
                           <td class="text-center">
@@ -117,13 +132,35 @@
   	data(){
   		return{
   			API_results: [],
+        attend: 0,
+        nonActive: [],
+        inactive: 0,
   		}
   	},
+    methods: {
+      grey() {
+        this.$refs["nonActive"].style.background = "grey";
+      }
+    },
     mounted() {
-      axios.get('api/entries/all').then(response => {
-        this.API_results = response.data.entries;
+      axios.get('api/trainings/all').then(response => {
+        this.API_results = response.data.trainings;
+        this.attend = response.data.attend;
+        this.nonActive = response.data.nonActive;
+        this.inactive = response.data.inactive;
+
       });
 
+    },
+    watch: {
+      inactive: function(val, old) {
+        if(parseInt(val) < 1 || val == "" ) {
+          this.inactive = 1;
+          return;
+        }
+        axios.post('/api/inactive', {val: val});
+
+      }
     }
   }
 </script>

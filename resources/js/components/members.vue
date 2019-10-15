@@ -52,6 +52,7 @@
             <div class="card big">
                 <div class="card-header flex-s">
                   <h2 class="vertical-align">Nariai</h2>
+                  <button @click="scroll('debt')" class="text-right btn-sm btn btn-warning text-dark">Skolingi nariai</button>
                 </div>
 
                 <div class="card-body">
@@ -140,7 +141,7 @@
 
                 </div>
             </div>
-            <div class="card big mt-5">
+            <div class="card big mt-5" ref="debt">
               <div class="card-header">
                 Skolingi nariai
               </div>
@@ -225,6 +226,11 @@
         this.$router.push('/members/edit/'+id);
       },
 
+      scroll(ref) {
+        var el = this.$refs[ref]
+        window.scrollTo({top: el.offsetTop, behavior: 'smooth'});
+      },
+
       changeMembersGroup(id, member){
         axios.post('/api/members/changeGroup/' + member, {
           groupID: id,
@@ -295,6 +301,11 @@
 </script>
 
 <style scoped>
+
+html {
+  scroll-behavior: smooth;
+}
+
 span, select, label, option {
   cursor: pointer;
 }

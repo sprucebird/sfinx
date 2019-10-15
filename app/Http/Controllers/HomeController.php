@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Signups;
 use App\dancer;
 use App\groups;
+use App\Setting;
 use App\update;
 
 class HomeController extends Controller
@@ -31,6 +32,14 @@ class HomeController extends Controller
         return view('home');
     }
 
+
+    public function inactive(Request $req) {
+      $s = Setting::where("name", "inactive")->first();
+      $s->value_int = $req->val;
+      $s->value_str = $req->val;
+      $s->value_double = $req->val;
+      $s->save();
+    }
 
     public function newVersion(Request $req)
     {
@@ -78,12 +87,19 @@ class HomeController extends Controller
       if(count($members)==0 && count($signups)==0 && count($groups) == 0) return response()->json(['status' => 'error', 'message' => 'null']);
       return response()->json(['status' => 'success', 'message' => $msg]);
     }
+
     public function search(Request $req) {
       $q = $req->input('searchQ');
       $signups = Signups::where('firstName', 'LIKE', '%'.$q.'%')->orwhere('lastName', 'LIKE', '%'.$q.'%')->orwhere('city', 'LIKE', '%'.$q.'%')->get();
       $members = dancer::where('firstName', 'LIKE', '%'.$q.'%')->orwhere('lastName', 'LIKE', '%'.$q.'%')->orwhere('city', 'LIKE', '%'.$q.'%')->orwhere('id', 'LIKE', '%'.$q.'%')->get();
       $groups = groups::where('groupName', 'LIKE', '%'.$q.'%')->orwhere('id', 'LIKE', '%'.$q.'%')->get();
-      $results = array_merge($groups->toArray(), $members->toArray(), $signups->toArray());
+      // $results = array_merge($groups->toArray(), $members->toArray(), $signups->toArray());
+      $results =
+        [
+          'signups' => $signups,
+          'members' => $members,
+          'groups' => $groups
+        ];
       $msg = "";
       if(count($members)==0 && count($signups)==0 && count($groups) == 0) return response()->json(['status' => 'error', 'message' => 'null']);
       return response()->json($results);

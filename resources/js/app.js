@@ -83,14 +83,14 @@ const routes = [
   { path: '/members', component: members },
   { path: '/groups', component: groups },
   { path: '/groups/create', component: groupsCreate },
-  { path: '/groups/update/:id', component: groupsUpdate },
+  { path: '/groups/update/:id', component: groupsUpdate, name: 'group' },
   { path: '/payments', component: payments },
   { path: '/entries', component: entries },
   { path: '/treniruote', component: newEntrie },
   { path: '/competition', component: competition },
   { path: '/members/add', component: membersAdd, name: 'add' },
   { path: '/members/edit/:id', component: memberEdit, name: 'edit' },
-  { path: '/signups/confirm/:id', component: membersAdd},
+  { path: '/signups/confirm/:id', component: membersAdd, name: 'sign_confirm'},
   { path: '/settings/users', component: users},
   { path: '/settings/users/create', component: userAdd},
   { path: '/search', component: search},
@@ -197,7 +197,8 @@ const app = new Vue({
       }).then(value => {
         if(value != null) {
           axios.post("/rfid/scan", {
-            RFID: value
+            RFID: value,
+            scanOnly: true
           }).then(response => {
             if(response.data.status == "OK") {
               this.$router.push({name: 'edit', params: {id: response.data.owner.id} });
@@ -301,3 +302,9 @@ const app = new Vue({
 // 		});
 //     });
 // });
+
+$(document).ready(function(){
+  $("#sideNavigation").hover(function(){
+    $('#sideNavigation').css('width', '220px');
+  });
+});

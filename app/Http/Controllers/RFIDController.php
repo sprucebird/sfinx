@@ -8,6 +8,7 @@ use App\dancer;
 use App\groups;
 use App\Trainings;
 use App\payments;
+use App\Setting;
 use App\Fees;
 
 use Carbon\Carbon;
@@ -31,6 +32,34 @@ class RFIDController extends Controller
         return view('rfid.index', compact('rfids'));
     }
 
+    public function show_trainings()
+    {
+      $trainings = Trainings::with('group')->with('dancers')->get();
+      $inactive = Setting::where('name', 'inactive')->first()->value_int;
+      $attend = 0.00;
+      $nonActive = [
+          "first" => dancer::where('lastVisited', '<', Carbon::today()->subDays($inactive))->orwhere('lastVisited', NULL)->count(),
+          "second" => dancer::all()->count()
+      ];
+      $totalCount = 0;
+
+      foreach($trainings as $t)
+      {
+        $t->created_at = $t->created_at->format('Y-m-d');
+        $t->was = number_format($t->dancers->count() / $t->group->members->count()  * 100, 2, ',', '');
+        $t->not = $t->group->members->count() - $t->dancers->count();
+        $t->not_in_p = number_format(100 - ($t->dancers->count() / $t->group->members->count()  * 100), 2, ",", "");
+        $attend += $t->dancers->count() / $t->group->members->count();
+        // $nonActive += $t->not;
+        $totalCount += $t->group->members->count();
+      }
+      if($attend != 0) $attend /= $trainings->count()/100;
+      $attend = number_format($attend, 2);
+      // $nonActive = ($nonActive > 0 ? $nonActive / $totalCount * 100 : 0);
+      // $nonActive = number_format($nonActive, 2);
+      return response()->json(['status' => 'OK', 'trainings' => $trainings, 'attend' => $attend, 'nonActive' => $nonActive, 'inactive' => $inactive]);
+    }
+
      /**
      * Scan RFID device via WEB enveroment
      *
@@ -41,6 +70,7 @@ class RFIDController extends Controller
         $checker = Validator::make($Req->all(), [
         	'RFID' => 'required',
         ]);
+
         // if($Req->RFID == 'none')
         // {
         //   $owner = dancer::where('id', $Req->id)->first();
@@ -59,26 +89,45 @@ class RFIDController extends Controller
         	return response()->json(['status' => 'FAILED', 'cause' => 3]);
         }
         $ownerData = $owner->dancer;
-
+        $owner->dancer->lastVisited = Carbon::today()->timezone("Europe/Vilnius");
+        $owner->dancer->save();
           $ownerData->payments = payments::where('member', $ownerData->id)->get();
           $ownerData->fees = Fees::where('owner', $ownerData->id)->get();
           $ownerData->balance = calculateBalance($ownerData->payments, $ownerData->fees);
 
-        $todaysEntrie = Entrie::where('Owner', $owner->Owner)->where('created_at', Carbon::today())->first();
+        $todaysEntrie = Entrie::where('Owner', $owner->Owner)->where('created_at', 'like', '%'.Carbon::today()->format('Y-m-d').'%')->first();
 
 
-        if(empty($todaysEntrie)){
+        if(empty($todaysEntrie) && empty($Req->scanOnly)){
         	// return response()->json(['status' => 'FAILED', 'cause' => 2]);
           $entrie = new Entrie;
           $entrie->RFID = $Req->input('RFID');
           $entrie->Owner = $owner->Owner;
           $entrie->save();
 
-          // $individualTraining = Trainings::where('created_at', Carbon::today())->where('group_id', $ownerData->group)->first();
-          // if(empty($individualTraining)){
-          //   $newTraining = new Trainings;
-          //   $newTraining->group_id = $ownerData->group;
-          // }
+
+          if($ownerData->group != 0) {
+              $today = Carbon::now()->timezone('Europe/Vilnius')->format('Y-m-d');
+              $train = $ownerData->currentGroup->trainings->filter(function($item) use ($today) {
+                return false !== stristr($item->created_at, $today);
+              });
+
+              if($train->count() > 0) $train->first()->dancers()->attach($ownerData->id);
+              else {
+                $tr = new Trainings();
+                $tr->groupID = $ownerData->group;
+                $tr->start = null;
+                $tr->save();
+                $tr->dancers()->attach($ownerData->id);
+                $train = $tr;
+              }
+              if($train->first()->start == null && $train->first()->dancers->count() >= (int) floor(0.333 * $ownerData->currentGroup->members->count())) {
+                $n = Carbon::now()->timezone('Europe/Vilnius');
+                $train->first()->start = $n->format('H:i:s');
+                $train->first()->end = $n->addHours(1)->format('H:i:s');
+                $train->first()->save();
+              }
+          }
 
         }
 

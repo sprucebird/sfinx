@@ -5,7 +5,7 @@
           <h1>Paieska</h1>
         </div>
         <div class="sectionHeader mb-4">
-           <input type="text" v-model="q" class="form-control form-control-search" v-on:keyup="makeSearch();"></input>
+           <input type="text" v-model="q" ref="search" class="form-control form-control-search" v-on:keyup="makeSearch();"></input>
          </div>
         <div class="justify-content-center">
           <!-- <div style="padding-left: 0 !important;" class="row mb-2">
@@ -80,17 +80,41 @@
                         </div>
                     </div>
                 </div> -->
-                <div class="mb-4">
-                  <div class="search-result mb-3" v-for="result in search_results" v-if="search_status == true">
+                <div class="mb-4" v-if="search_results != null">
+                  <div class="search-result mb-3" v-for="result in search_results.members" v-if="search_status == true">
                     <div>
                       <h2><router-link v-bind:to="{ name: 'edit', params: { id: result.id }}" class="item">{{result.firstName}} {{result.lastName}}</router-link></h2>
-                      <router-link to="{path: '/member/edit/', params: {id: result.id}" class="tag tag-red"></router-link>
+                      <!-- <router-link to="{path: '/member/edit/', params: {id: result.id}" class="tag tag-red"></router-link> -->
                       <h5 class="mt-2"></h5>
                     </div>
                     <div>
                       <label class="bg-label bg-label-search bg-label-search-success">Narys</label>
                     </div>
                   </div>
+
+                  <div class="search-result mb-3" v-for="result in search_results.groups" v-if="search_status == true">
+                    <div>
+                      <h2><router-link v-bind:to="{ name: 'group', params: { id: result.id }}" class="item">{{result.groupName}}</router-link></h2>
+                      <!-- <router-link to="{path: '/member/edit/', params: {id: result.id}" class="tag tag-red"></router-link> -->
+                      <h5 class="mt-2"></h5>
+                    </div>
+                    <div>
+                      <label class="bg-label bg-label-search bg-label-search-warning">Grupė</label>
+                    </div>
+                  </div>
+
+
+                  <div class="search-result mb-3" v-for="result in search_results.signups" v-if="search_status == true">
+                    <div>
+                      <h2><router-link v-bind:to="{ name: 'sign_confirm', params: { id: result.id }}" class="item">{{result.firstName}} {{result.lastName}}</router-link></h2>
+                      <!-- <router-link to="{path: '/member/edit/', params: {id: result.id}" class="tag tag-red"></router-link> -->
+                      <h5 class="mt-2"></h5>
+                    </div>
+                    <div>
+                      <label class="bg-label bg-label-search bg-label-search-danger">Registracija</label>
+                    </div>
+                  </div>
+
                 </div>
         </div>
     </div>
@@ -136,6 +160,8 @@
       },
     },
     mounted() {
+
+      this.$refs['search'].focus();
 
       axios.get('api/stats/signups/1').then(response => {
         this.signupsCount = response.data.count;

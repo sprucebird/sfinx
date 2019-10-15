@@ -13,7 +13,7 @@ class groups extends Model
 	}
 
 	public function trainings() {
-		return $this->hasMany(Trainings::class, 'group', 'id');
+		return $this->hasMany(Trainings::class, 'groupID', 'id');
 	}
     //
 }

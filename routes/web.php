@@ -50,6 +50,7 @@ Route::post('system/versions/new', "HomeController@newVersion")->name('system.up
 Route::get('/', 'HomeController@index')->name('home');
 
 
+Route::post('/api/inactive', 'HomeController@inactive');
 Route::any('/api/search', "HomeController@search")->name('search');
 Route::get('/api/factory/signups/generate/{amount}', 'HomeController@signupGenerator');
 Route::get('api/stats/balance/{range}', 'StatisticsController@balanceHistory')->name('api.stats.balance');
@@ -78,6 +79,7 @@ Route::get('api/payments', 'PaymentsController@index')->name('api.payments.index
 Route::get('api/payments/deptors', 'PaymentsController@deptors')->name('api.payments.deptors');
 
 Route::get('api/entries/all', 'RFIDController@entries')->name('api.rfid.entries');
+Route::get('api/trainings/all', 'RFIDController@show_trainings');
 Route::get('api/users', 'UserSessionsController@usersList')->name('api.users.list');
 Route::get('/api/users/new/link', 'UserSessionsController@generateNewUserUrl');
 });
