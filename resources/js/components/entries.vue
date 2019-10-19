@@ -57,7 +57,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr role="row" class="odd" v-for="training in API_results">
+                        <tr role="row" class="odd" :class="{'td-active': training.today}" v-for="training in API_results">
                           <td>
                             <div>
                               {{training.group.groupName}}
@@ -67,7 +67,8 @@
                             </div>
                           </td>
                           <td>
-                            {{(training.created_at.split(' '))[0]}}
+                            <b v-if="training.today">{{(training.created_at.split(' '))[0]}}</b>
+                            <span v-else> {{(training.created_at.split(' '))[0]}}</span>
                           </td>
                           <td>
                             <div>
@@ -86,26 +87,29 @@
                               </div>
                             </div>
                             <div class="progress progress-xs">
-                              <div v-if="parseFloat(training.was) > 66" class="progress-bar bg-green" role="progressbar" v-bind:style="{width: parseFloat(training.was) + '%' }" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
-                              <div v-if="parseFloat(training.was) > 33 && parseFloat(training.was) < 66" class="progress-bar bg-yellow" role="progressbar" v-bind:style="{width: parseFloat(training.was) + '%' }" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
-                              <div v-if="parseFloat(training.was) < 33" class="progress-bar bg-red" role="progressbar" v-bind:style="{width: parseFloat(training.was) + '%' }" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
+                              <div v-if="parseFloat(training.was) > 60" class="progress-bar bg-green" role="progressbar" v-bind:style="{width: parseFloat(training.was) + '%' }" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
+                              <div v-if="parseFloat(training.was) >= 30 && parseFloat(training.was) <= 60" class="progress-bar bg-yellow" role="progressbar" v-bind:style="{width: parseFloat(training.was) + '%' }" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
+                              <div v-if="parseFloat(training.was) < 30" class="progress-bar bg-red" role="progressbar" v-bind:style="{width: parseFloat(training.was) + '%' }" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                           </td>
+
                           <td>
                             <div class="clearfix">
-                              <div class="float-left">
-                                <strong>{{training.not}} narių</strong>
+                              <div class="text-center">
+                                <strong class="h1" :class="isRed(training.not_in_p)"> {{training.not}}</strong>&nbsp;&nbsp;&nbsp;
+                                <strong class="h4"> ({{training.not_in_p}}%)</strong>
                               </div>
-                              <div class="float-right">
+                              <!-- <div class="float-right">
                                 <small class="text-muted">tai yra {{training.not_in_p}}% visų grupės narių</small>
-                              </div>
+                              </div> -->
                             </div>
-                            <div class="progress progress-xs">
+                            <!-- <div class="progress progress-xs">
                               <div v-if="parseFloat(training.not_in_p) >= 80" class="progress-bar bg-red" role="progressbar" v-bind:style="{width: parseFloat(training.not_in_p) + '%' }" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
                               <div v-if="parseFloat(training.not_in_p) > 40 && parseFloat(training.not_in_p) < 80" class="progress-bar bg-yellow" role="progressbar" v-bind:style="{width: parseFloat(training.not_in_p) + '%' }" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
                               <div v-if="parseFloat(training.not_in_p) <= 40" class="progress-bar bg-green" role="progressbar" v-bind:style="{width: parseFloat(training.not_in_p) + '%' }" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
+                            </div> -->
                           </td>
+
                           <td class="text-center">
                             <div class="item-action dropdown">
                               <a href="javascript:void(0)" data-toggle="dropdown" class="icon"><i class="icon fe fe-activity mr-3"></i> Plačiau</a>
@@ -140,6 +144,9 @@
     methods: {
       grey() {
         this.$refs["nonActive"].style.background = "grey";
+      },
+      isRed(val) {
+        return (parseFloat(val) > 60 ? "red" : "");
       }
     },
     mounted() {
@@ -165,5 +172,12 @@
   }
 </script>
 
-<style>
+<style scoped>
+.td-active {
+  border-left: solid 0.3rem #316CBE
+}
+
+.red {
+  color: red;
+}
 </style>

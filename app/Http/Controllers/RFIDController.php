@@ -34,7 +34,7 @@ class RFIDController extends Controller
 
     public function show_trainings()
     {
-      $trainings = Trainings::with('group')->with('dancers')->get();
+      $trainings = Trainings::with('group')->with('dancers')->orderBy('created_at', 'desc')->get();
       $inactive = Setting::where('name', 'inactive')->first()->value_int;
       $attend = 0.00;
       $nonActive = [
@@ -52,6 +52,8 @@ class RFIDController extends Controller
         $attend += $t->dancers->count() / $t->group->members->count();
         // $nonActive += $t->not;
         $totalCount += $t->group->members->count();
+
+        $t->today = ($t->created_at->format("Y-m-d") == Carbon::today()->timezone("Europe/Vilnius")->format("Y-m-d") ? true : false);
       }
       if($attend != 0) $attend /= $trainings->count()/100;
       $attend = number_format($attend, 2);
