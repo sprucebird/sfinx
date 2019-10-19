@@ -45,7 +45,28 @@
         </div>
       </div>
   </div>
-  <div class="page-content justify-content-center mt-4">
+  <div class="page-content justify-content-center mt-5" style="padding-top: 1em;">
+    <div class="page-header mb-2">
+        <div class="description">
+          <h3>Sistemos pranešimai</h3>
+        </div>
+    </div>
+    <div class="alert alert-warning" style="max-width: 650px;">
+      <div class="alert-header">
+        Dėmesio! Norint gauti tikslią lankomumo informaciją būtina kekvienam studijos nariui priskirti jo grupę.
+      </div>
+      <div class="alert-body">
+        <router-link to="/members" class="mt-4 btn btn-white">Narių sąrašas</router-link>
+      </div>
+    </div>
+    <div class="alert alert-primary" style="max-width: 650px;">
+      <div class="alert-header">
+        Įdiegtas naujas treniruočių mechanizmas, kuris automatiškai aptinka treniruotę, ją sukuria ir apskaičiuoja aktyvius bei neaktyvius narius.
+      </div>
+      <div class="alert-body">
+        <router-link to="/entries" class="mt-4 btn btn-white">Peržiūrėti</router-link>
+      </div>
+    </div>
     <!-- <div class="card big mt-5">
       <div class="card-header">
         Veiksmų centras
