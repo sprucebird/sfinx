@@ -146,7 +146,7 @@
         this.$refs["nonActive"].style.background = "grey";
       },
       isRed(val) {
-        return (parseFloat(val) > 60 ? "red" : "");
+        return (parseFloat(val) > 70 ? "red" : "");
       }
     },
     mounted() {
