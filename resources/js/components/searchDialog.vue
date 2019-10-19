@@ -1,9 +1,12 @@
 <template>
   <div>
-    <div class="container">
-       <div class="sectionHeader mb-4">
-          <h1>Paieska</h1>
+    <div class="page-header mb-1">
+        <div class="description">
+          <h1>Paieška</h1>
+          <h3>Ieškokite tarp narių, grupių ir nepatvirtintų registracijų</h3>
         </div>
+    </div>
+    <div class="container mt-2" style="width: 100%;">
         <div class="sectionHeader mb-4">
            <input type="text" v-model="q" ref="search" class="form-control form-control-search" v-on:keyup="makeSearch();"></input>
          </div>

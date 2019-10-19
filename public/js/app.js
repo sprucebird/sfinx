@@ -2441,6 +2441,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3626,6 +3647,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
 //
 //
 //
@@ -76310,7 +76334,78 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "page-content justify-content-center mt-4" })
+    _c(
+      "div",
+      {
+        staticClass: "page-content justify-content-center mt-5",
+        staticStyle: { "padding-top": "1em" }
+      },
+      [
+        _vm._m(2),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "alert alert-warning",
+            staticStyle: { "max-width": "650px" }
+          },
+          [
+            _c("div", { staticClass: "alert-header" }, [
+              _vm._v(
+                "\n        Dėmesio! Norint gauti tikslią lankomumo informaciją būtina kekvienam studijos nariui priskirti jo grupę.\n      "
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "alert-body" },
+              [
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "mt-4 btn btn-white",
+                    attrs: { to: "/members" }
+                  },
+                  [_vm._v("Narių sąrašas")]
+                )
+              ],
+              1
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "alert alert-primary",
+            staticStyle: { "max-width": "650px" }
+          },
+          [
+            _c("div", { staticClass: "alert-header" }, [
+              _vm._v(
+                "\n        Įdiegtas naujas treniruočių mechanizmas, kuris automatiškai aptinka treniruotę, ją sukuria ir apskaičiuoja aktyvius bei neaktyvius narius.\n      "
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "alert-body" },
+              [
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "mt-4 btn btn-white",
+                    attrs: { to: "/entries" }
+                  },
+                  [_vm._v("Peržiūrėti")]
+                )
+              ],
+              1
+            )
+          ]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -76334,6 +76429,16 @@ var staticRenderFns = [
       _c("h2", [_vm._v("nariai")]),
       _vm._v(" "),
       _c("h3", [_vm._v("šiuo metu registruotų sistemoje")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "page-header mb-2" }, [
+      _c("div", { staticClass: "description" }, [
+        _c("h3", [_vm._v("Sistemos pranešimai")])
+      ])
     ])
   }
 ]
@@ -78964,151 +79069,160 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "container" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "sectionHeader mb-4" }, [
-        _c("input", {
-          directives: [
-            { name: "model", rawName: "v-model", value: _vm.q, expression: "q" }
-          ],
-          ref: "search",
-          staticClass: "form-control form-control-search",
-          attrs: { type: "text" },
-          domProps: { value: _vm.q },
-          on: {
-            keyup: function($event) {
-              return _vm.makeSearch()
-            },
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+    _vm._m(0),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "container mt-2", staticStyle: { width: "100%" } },
+      [
+        _c("div", { staticClass: "sectionHeader mb-4" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.q,
+                expression: "q"
               }
-              _vm.q = $event.target.value
+            ],
+            ref: "search",
+            staticClass: "form-control form-control-search",
+            attrs: { type: "text" },
+            domProps: { value: _vm.q },
+            on: {
+              keyup: function($event) {
+                return _vm.makeSearch()
+              },
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.q = $event.target.value
+              }
             }
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "justify-content-center" }, [
-        _vm.search_results != null
-          ? _c(
-              "div",
-              { staticClass: "mb-4" },
-              [
-                _vm._l(_vm.search_results.members, function(result) {
-                  return _vm.search_status == true
-                    ? _c("div", { staticClass: "search-result mb-3" }, [
-                        _c("div", [
-                          _c(
-                            "h2",
-                            [
-                              _c(
-                                "router-link",
-                                {
-                                  staticClass: "item",
-                                  attrs: {
-                                    to: {
-                                      name: "edit",
-                                      params: { id: result.id }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "justify-content-center" }, [
+          _vm.search_results != null
+            ? _c(
+                "div",
+                { staticClass: "mb-4" },
+                [
+                  _vm._l(_vm.search_results.members, function(result) {
+                    return _vm.search_status == true
+                      ? _c("div", { staticClass: "search-result mb-3" }, [
+                          _c("div", [
+                            _c(
+                              "h2",
+                              [
+                                _c(
+                                  "router-link",
+                                  {
+                                    staticClass: "item",
+                                    attrs: {
+                                      to: {
+                                        name: "edit",
+                                        params: { id: result.id }
+                                      }
                                     }
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    _vm._s(result.firstName) +
-                                      " " +
-                                      _vm._s(result.lastName)
-                                  )
-                                ]
-                              )
-                            ],
-                            1
-                          ),
+                                  },
+                                  [
+                                    _vm._v(
+                                      _vm._s(result.firstName) +
+                                        " " +
+                                        _vm._s(result.lastName)
+                                    )
+                                  ]
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("h5", { staticClass: "mt-2" })
+                          ]),
                           _vm._v(" "),
-                          _c("h5", { staticClass: "mt-2" })
-                        ]),
-                        _vm._v(" "),
-                        _vm._m(1, true)
-                      ])
-                    : _vm._e()
-                }),
-                _vm._v(" "),
-                _vm._l(_vm.search_results.groups, function(result) {
-                  return _vm.search_status == true
-                    ? _c("div", { staticClass: "search-result mb-3" }, [
-                        _c("div", [
-                          _c(
-                            "h2",
-                            [
-                              _c(
-                                "router-link",
-                                {
-                                  staticClass: "item",
-                                  attrs: {
-                                    to: {
-                                      name: "group",
-                                      params: { id: result.id }
+                          _vm._m(1, true)
+                        ])
+                      : _vm._e()
+                  }),
+                  _vm._v(" "),
+                  _vm._l(_vm.search_results.groups, function(result) {
+                    return _vm.search_status == true
+                      ? _c("div", { staticClass: "search-result mb-3" }, [
+                          _c("div", [
+                            _c(
+                              "h2",
+                              [
+                                _c(
+                                  "router-link",
+                                  {
+                                    staticClass: "item",
+                                    attrs: {
+                                      to: {
+                                        name: "group",
+                                        params: { id: result.id }
+                                      }
                                     }
-                                  }
-                                },
-                                [_vm._v(_vm._s(result.groupName))]
-                              )
-                            ],
-                            1
-                          ),
+                                  },
+                                  [_vm._v(_vm._s(result.groupName))]
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("h5", { staticClass: "mt-2" })
+                          ]),
                           _vm._v(" "),
-                          _c("h5", { staticClass: "mt-2" })
-                        ]),
-                        _vm._v(" "),
-                        _vm._m(2, true)
-                      ])
-                    : _vm._e()
-                }),
-                _vm._v(" "),
-                _vm._l(_vm.search_results.signups, function(result) {
-                  return _vm.search_status == true
-                    ? _c("div", { staticClass: "search-result mb-3" }, [
-                        _c("div", [
-                          _c(
-                            "h2",
-                            [
-                              _c(
-                                "router-link",
-                                {
-                                  staticClass: "item",
-                                  attrs: {
-                                    to: {
-                                      name: "sign_confirm",
-                                      params: { id: result.id }
+                          _vm._m(2, true)
+                        ])
+                      : _vm._e()
+                  }),
+                  _vm._v(" "),
+                  _vm._l(_vm.search_results.signups, function(result) {
+                    return _vm.search_status == true
+                      ? _c("div", { staticClass: "search-result mb-3" }, [
+                          _c("div", [
+                            _c(
+                              "h2",
+                              [
+                                _c(
+                                  "router-link",
+                                  {
+                                    staticClass: "item",
+                                    attrs: {
+                                      to: {
+                                        name: "sign_confirm",
+                                        params: { id: result.id }
+                                      }
                                     }
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    _vm._s(result.firstName) +
-                                      " " +
-                                      _vm._s(result.lastName)
-                                  )
-                                ]
-                              )
-                            ],
-                            1
-                          ),
+                                  },
+                                  [
+                                    _vm._v(
+                                      _vm._s(result.firstName) +
+                                        " " +
+                                        _vm._s(result.lastName)
+                                    )
+                                  ]
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("h5", { staticClass: "mt-2" })
+                          ]),
                           _vm._v(" "),
-                          _c("h5", { staticClass: "mt-2" })
-                        ]),
-                        _vm._v(" "),
-                        _vm._m(3, true)
-                      ])
-                    : _vm._e()
-                })
-              ],
-              2
-            )
-          : _vm._e()
-      ])
-    ])
+                          _vm._m(3, true)
+                        ])
+                      : _vm._e()
+                  })
+                ],
+                2
+              )
+            : _vm._e()
+        ])
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -79116,8 +79230,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "sectionHeader mb-4" }, [
-      _c("h1", [_vm._v("Paieska")])
+    return _c("div", { staticClass: "page-header mb-1" }, [
+      _c("div", { staticClass: "description" }, [
+        _c("h1", [_vm._v("Paieška")]),
+        _vm._v(" "),
+        _c("h3", [
+          _vm._v("Ieškokite tarp narių, grupių ir nepatvirtintų registracijų")
+        ])
+      ])
     ])
   },
   function() {
@@ -96501,9 +96621,9 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /var/www/html/sfinx_dev/resources/js/app.js */"./resources/js/app.js");
-__webpack_require__(/*! /var/www/html/sfinx_dev/resources/sass/app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! /var/www/html/sfinx_dev/resources/sass/public.scss */"./resources/sass/public.scss");
+__webpack_require__(/*! /var/www/html/sfinx/resources/js/app.js */"./resources/js/app.js");
+__webpack_require__(/*! /var/www/html/sfinx/resources/sass/app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! /var/www/html/sfinx/resources/sass/public.scss */"./resources/sass/public.scss");
 
 
 /***/ })

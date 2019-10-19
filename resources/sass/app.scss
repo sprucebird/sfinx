@@ -309,11 +309,11 @@ select{
 	color: #4D4F5C;
 	background: #fff;
 	padding-right: 2.5rem;
-	// box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.15);
- //    -moz-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.15);
- //    -webkit-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.15);
- //    -o-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.15);
- //    -ms-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.15);
+	box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.09);
+    -moz-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.09);
+    -webkit-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.09);
+    -o-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.09);
+    -ms-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.09);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -954,4 +954,13 @@ select{
 }
 .modal-footer{
 	border-top: none;
+}
+.btn-white{
+    color: $PrimaryColor;
+    border-color: $PrimaryColor;
+    background-color: $white;
+    box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+    &:hover{
+        color: $PrimaryColor;
+    }
 }

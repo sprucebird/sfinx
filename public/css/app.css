@@ -19101,6 +19101,11 @@ select {
   color: #4D4F5C;
   background: #fff;
   padding-right: 2.5rem;
+  box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.09);
+  -moz-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.09);
+  -webkit-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.09);
+  -o-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.09);
+  -ms-box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.09);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -19789,5 +19794,16 @@ th {
 
 .modal-footer {
   border-top: none;
+}
+
+.btn-white {
+  color: #4062BB;
+  border-color: #4062BB;
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.btn-white:hover {
+  color: #4062BB;
 }
 
