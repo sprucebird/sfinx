@@ -93,9 +93,10 @@
                                       </div>
                                     </td>
                                     <td>
-                                      <label class="bg-label bg-label-success" v-if="result.balance > 0">Apmokėta</label>
-                                      <label class="bg-label bg-label-danger" v-if="result.balance < 0">Neapmokėta</label>
-                                      <div v-if="result.balance == 0" class="small text-muted">Yra sumokėta už praeitą mėnesį</div>
+                                      <label class="bg-label bg-label-primary" v-if="result.inactive">NEAKTYVUS</label>
+                                      <label class="bg-label bg-label-success" v-else-if="result.balance > 0">Apmokėta</label>
+                                      <label class="bg-label bg-label-danger" v-else-if="result.balance < 0">Neapmokėta</label>
+                                      <div v-else-if="result.balance == 0" class="small text-muted">Yra sumokėta už praeitą mėnesį</div>
                                     </td>
                                     <td>
                                       <label class="bg-label bg-label-main">{{result.entries}}</label>
@@ -175,8 +176,9 @@
                                 </div>
                               </td>
                               <td>
-                                <label class="bg-label bg-label-success" v-if="result.balance > 0">Apmokėta</label>
-                                <label class="bg-label bg-label-danger" v-if="result.balance <= 0">Neapmokėta</label>
+                                <label class="bg-label bg-label-primary" v-if="result.inactive">NEAKTYVUS</label>
+                                <label class="bg-label bg-label-success" v-else-if="result.balance > 0">Apmokėta</label>
+                                <label class="bg-label bg-label-danger" v-else-if="result.balance <= 0">Neapmokėta</label>
                               </td>
                               <td>
                                 <label class="bg-label bg-label-main">{{result.entries}}</label>

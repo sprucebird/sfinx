@@ -9,6 +9,8 @@ use App\payments;
 use App\Fees;
 use App\Entrie;
 use App\groups;
+use Carbon\Carbon;
+use App\Setting;
 use App\RFID;
 use Illuminate\Http\Request;
 
@@ -49,6 +51,7 @@ class DancerController extends Controller
           $member->payments = payments::where('member', $member->id)->get();
           $member->fees = Fees::where('owner', $member->id)->get();
           $member->balance = calculateBalance($member->payments, $member->fees);
+          $member->inactive = (Carbon::today()->diff(Carbon::create($member->lastVisited))->days >= Setting::where("name", "inactive")->first()->value_int ? true : false);
             foreach ($groups as $group) {
                 if($member->group == $group->id){
                     $member->groupName = $group->groupName;

@@ -186,6 +186,11 @@
               </div>
       </header>
       <div id="sideNavigation" :class="{side: dark}">
+
+                <a href="javascript:history.go(-1)" class="item">
+                  <span class="icon" data-feather="corner-up-left"></span>
+                </a>
+
                 <div class="items">
                    <router-link to="/" class="item" data-toggle="tooltip" title="Main">
                      <span class="icon" data-feather="home"></span>

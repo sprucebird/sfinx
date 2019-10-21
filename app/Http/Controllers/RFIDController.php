@@ -91,8 +91,10 @@ class RFIDController extends Controller
         	return response()->json(['status' => 'FAILED', 'cause' => 3]);
         }
         $ownerData = $owner->dancer;
-        $owner->dancer->lastVisited = Carbon::today()->timezone("Europe/Vilnius");
-        $owner->dancer->save();
+        if(empty($Req->scanOnly)) {
+          $owner->dancer->lastVisited = Carbon::today()->timezone("Europe/Vilnius");
+          $owner->dancer->save();
+        }
           $ownerData->payments = payments::where('member', $ownerData->id)->get();
           $ownerData->fees = Fees::where('owner', $ownerData->id)->get();
           $ownerData->balance = calculateBalance($ownerData->payments, $ownerData->fees);
@@ -200,6 +202,20 @@ class RFIDController extends Controller
     public function update(Request $request, RFID $rFID)
     {
         //
+    }
+
+    public function gonerList(Request $req) {
+      $tr = Trainings::where("id", $req->id)->first();
+      $all = $tr->group->members->pluck("id");
+      $t = $tr->dancers->pluck("id");
+      $diff = $all->diff($t);
+      foreach($diff as $key => $d) {
+        $diff[$key] = $tr->group->members->where("id", $d)->first();
+        $diff[$key]->groupName = $tr->group->groupName;
+        $diff[$key]->rate = number_format(dancer::where("id", $d)->first()->trainings->count() / $tr->group->trainings->count() * 100, 2);
+      }
+
+      return response()->json(["goners" => $diff]);
     }
 
     /**

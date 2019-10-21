@@ -11,9 +11,11 @@
       <div class="card col-md-6">
         <div class="card-body text-center">
             <div class="h6">Treniruotės lankomumas</div>
-            <h1 class="font-weight-bold mb-4">62%</h1>
+            <h1 class="font-weight-bold mb-4">{{proc_rate}}%</h1>
               <div class="progress progress-sm">
-                  <div class="progress-bar bg-yellow" style="width: 62%"></div>
+                <div v-if="parseFloat(proc_rate) > 60" class="progress-bar bg-green" role="progressbar" v-bind:style="{width: parseFloat(proc_rate) + '%' }" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
+                <div v-if="parseFloat(proc_rate) >= 30 && parseFloat(proc_rate) <= 60" class="progress-bar bg-yellow" role="progressbar" v-bind:style="{width: parseFloat(proc_rate) + '%' }" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
+                <div v-if="parseFloat(proc_rate) < 30" class="progress-bar bg-red" role="progressbar" v-bind:style="{width: parseFloat(proc_rate) + '%' }" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
         </div>
       </div>
@@ -36,40 +38,42 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr role="row" class="odd">
+                        <tr role="row" class="odd" v-for="goner in API_results">
                           <td>
                             <div>
-                              Vardenis Pavardenis
+                              {{goner.firstName}}&nbsp;{{goner.lastName}}
                             </div>
                             <div class="small text-muted">
-                              Sfinx Squad
+                              {{goner.groupName}}
                             </div>
                           </td>
                           <td>
-                            +370 611 48 350
+                            {{goner.primaryPhone}}
                           </td>
                           <td>
-                            2019-09-05 17:40:05
+                            {{(goner.lastVisited != null ? goner.lastVisited : "N/A")}}
                           </td>
                           <td>
                             <div class="clearfix">
                               <div class="float-left">
-                                <strong>22%</strong>
+                                <strong>{{goner.rate}}%</strong>
                               </div>
                               <div class="float-right">
-                                <small class="text-muted">nuo 2019-09-05 17:40:05</small>
+                                <small class="text-muted">nuo {{goner.created_at}}</small>
                               </div>
                             </div>
                             <div class="progress progress-xs">
-                              <div class="progress-bar bg-red" role="progressbar" style="width: 42%" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
+                              <div v-if="parseFloat(goner.rate) > 60" class="progress-bar bg-green" role="progressbar" v-bind:style="{width: parseFloat(goner.rate) + '%' }" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
+                              <div v-if="parseFloat(goner.rate) >= 30 && parseFloat(goner.rate) <= 60" class="progress-bar bg-yellow" role="progressbar" v-bind:style="{width: parseFloat(goner.rate) + '%' }" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
+                              <div v-if="parseFloat(goner.rate) < 30" class="progress-bar bg-red" role="progressbar" v-bind:style="{width: parseFloat(goner.rate) + '%' }" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                           </td>
                           <td>
-                            2019-09-02 15:45:01
+                            {{goner.created_at}}
                           </td>
                           <td class="text-center">
                             <div class="item-action dropdown">
-                              <a href="javascript:void(0)" data-toggle="dropdown" class="icon"><i class="icon fe fe-more mr-3"></i> Redaguoti</a>
+                              <router-link v-bind:to="{ name: 'edit', params: { id: goner.id }}" ><a href="javascript:void(0)" data-toggle="dropdown" class="icon"><i class="icon fe fe-more mr-3"></i> Redaguoti</a></router-link>
                             </div>
                           </td>
                         </tr>
@@ -93,14 +97,15 @@
   	data(){
   		return{
   			API_results: [],
+        proc_rate: 0
   		}
   	},
     mounted() {
-      axios.get('api/entries/all').then(response => {
-        this.API_results = response.data.entries;
+      axios.post('/api/gonerList', {'id': this.$route.params.id}).then(response => {
+        this.API_results = response.data.goners;
+        this.proc_rate = this.$route.params.proc_rate;
       });
-
-    }
+    },
   }
 </script>
 

@@ -112,7 +112,7 @@
 
                           <td class="text-center">
                             <div class="item-action dropdown">
-                              <a href="javascript:void(0)" data-toggle="dropdown" class="icon"><i class="icon fe fe-activity mr-3"></i> Plačiau</a>
+                              <a @click="showTrainingDetails(training.id, training.was);" data-toggle="dropdown" class="icon"><i class="icon fe fe-activity mr-3"></i> Plačiau</a>
                             </div>
                           </td>
                         </tr>
@@ -142,6 +142,10 @@
   		}
   	},
     methods: {
+      showTrainingDetails(id, proc_rate)
+      {
+        this.$router.push('trainings/'+id+"/"+proc_rate);
+      },
       grey() {
         this.$refs["nonActive"].style.background = "grey";
       },
