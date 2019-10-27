@@ -75226,20 +75226,30 @@ var render = function() {
     _c("div", { staticClass: "page-content justify-content-center mt-4" }, [
       _c("div", { staticClass: "pl-3 row" }, [
         _c("div", { staticClass: "card col-md-3" }, [
-          _c("div", { staticClass: "card-body text-center" }, [
-            _c("div", { staticClass: "h6" }, [_vm._v("Studijos lankomumas")]),
-            _vm._v(" "),
-            _c("h1", { staticClass: "font-weight-bold mb-4" }, [
-              _vm._v(_vm._s(_vm.attend) + "%")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "progress progress-sm" }, [
-              _c("div", {
-                staticClass: "progress-bar bg-yellow",
-                style: { width: _vm.attend + "%" }
-              })
-            ])
-          ])
+          _c(
+            "div",
+            {
+              staticClass: "card-body text-center",
+              attrs: {
+                title:
+                  "SVARBU! Neįvykusios treniruotės (turinčios raudonus žymėjimus ir brūkšnelius vietoje laiko) lankomumas neskaičiuojamas ir prie studijos lankomumo nepridedamas."
+              }
+            },
+            [
+              _c("div", { staticClass: "h6" }, [_vm._v("Studijos lankomumas")]),
+              _vm._v(" "),
+              _c("h1", { staticClass: "font-weight-bold mb-4" }, [
+                _vm._v(_vm._s(_vm.attend) + "%")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "progress progress-sm" }, [
+                _c("div", {
+                  staticClass: "progress-bar bg-yellow",
+                  style: { width: _vm.attend + "%" }
+                })
+              ])
+            ]
+          )
         ]),
         _vm._v(" "),
         _c(

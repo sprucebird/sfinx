@@ -9,7 +9,7 @@
   <div class="page-content justify-content-center mt-4">
     <div class="pl-3 row">
       <div class="card col-md-3">
-        <div class="card-body text-center">
+        <div class="card-body text-center" title="SVARBU! Neįvykusios treniruotės (turinčios raudonus žymėjimus ir brūkšnelius vietoje laiko) lankomumas neskaičiuojamas ir prie studijos lankomumo nepridedamas.">
             <div class="h6">Studijos lankomumas</div>
             <h1 class="font-weight-bold mb-4">{{attend}}%</h1>
               <div class="progress progress-sm">

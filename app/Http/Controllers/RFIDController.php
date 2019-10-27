@@ -42,6 +42,7 @@ class RFIDController extends Controller
           "second" => dancer::all()->count()
       ];
       $totalCount = 0;
+      $neg = 0;
 
       foreach($trainings as $t)
       {
@@ -49,13 +50,16 @@ class RFIDController extends Controller
         $t->was = number_format($t->dancers->count() / $t->group->members->count()  * 100, 2, ',', '');
         $t->not = $t->group->members->count() - $t->dancers->count();
         $t->not_in_p = number_format(100 - ($t->dancers->count() / $t->group->members->count()  * 100), 2, ",", "");
-        $attend += $t->dancers->count() / $t->group->members->count();
+
+        $tmp = $t->dancers->count() / $t->group->members->count();
+        if($tmp < 0.3) $neg++;
+        else $attend += $tmp;
         // $nonActive += $t->not;
         $totalCount += $t->group->members->count();
 
         $t->today = ($t->created_at->format("Y-m-d") == Carbon::today()->timezone("Europe/Vilnius")->format("Y-m-d") ? true : false);
       }
-      if($attend != 0) $attend /= $trainings->count()/100;
+      if($attend != 0) $attend /= ($trainings->count() - $neg)/100;
       $attend = number_format($attend, 2);
       // $nonActive = ($nonActive > 0 ? $nonActive / $totalCount * 100 : 0);
       // $nonActive = number_format($nonActive, 2);
