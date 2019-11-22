@@ -12,14 +12,14 @@
 */
 //
 
-// Route::domain('dev.sfinx.sprucebird.co')->group(function () {
-//     Route::get('/', 'SignupsController@create')->name('SignupFormPublic');
-//     // Route::post('/', ['as' => '/', 'uses' => 'SignupsController@store'])->name('SignupFormPublicPublish');
-//     Route::post('/', 'SignupsController@store')->name('SignupFormPublicPublish');
-//
-// });
+Route::domain('sfinx.lt')->group(function () {
+    Route::get('/', 'SignupsController@create')->name('SignupFormPublic');
+    // Route::post('/', ['as' => '/', 'uses' => 'SignupsController@store'])->name('SignupFormPublicPublish');
+    Route::post('/', 'SignupsController@store')->name('SignupFormPublicPublish');
 
-Route::domain('dev.sfinx.sprucebird.co')->group(function () {
+});
+
+Route::domain('dsms.sfinx.lt')->group(function () {
 
 
 // Route::get('/registracija', 'SignupsController@create')->name('SignupFormPublic');
