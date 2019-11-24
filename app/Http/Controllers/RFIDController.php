@@ -32,7 +32,7 @@ class RFIDController extends Controller
         return view('rfid.index', compact('rfids'));
     }
 
-    public function show_trainings()
+    public function show_trainings(Request $req)
     {
       $trainings = Trainings::with('group')->with('dancers')->orderBy('created_at', 'desc')->get();
       $inactive = Setting::where('name', 'inactive')->first()->value_int;
@@ -61,9 +61,10 @@ class RFIDController extends Controller
       }
       if($attend != 0) $attend /= ($trainings->count() - $neg)/100;
       $attend = number_format($attend, 2);
+      $pgtr = collect($trainings);
       // $nonActive = ($nonActive > 0 ? $nonActive / $totalCount * 100 : 0);
       // $nonActive = number_format($nonActive, 2);
-      return response()->json(['status' => 'OK', 'trainings' => $trainings, 'attend' => $attend, 'nonActive' => $nonActive, 'inactive' => $inactive]);
+      return response()->json(['status' => 'OK', 'trainings' => $pgtr->forPage($req->page, 15), 'attend' => $attend, 'nonActive' => $nonActive, 'inactive' => $inactive]);
     }
 
      /**
@@ -241,7 +242,7 @@ class RFIDController extends Controller
      */
     public function entries()
     {
-        $entries = Entrie::latest()->get();
+        $entries = Entrie::latest()->paginate(15);
         $members = dancer::latest()->get();
         $groups = groups::latest()->get();
         foreach ($entries as $entrie)

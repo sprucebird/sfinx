@@ -4,6 +4,7 @@
       <div class="description">
         <h3>Nariai</h3>
         <h1>Mokėjimai ir finansai</h1>
+        <h4>{{_from}} – {{_to}}</h4>
       </div>
       <!-- <div class="ml-5 stats">
         <div class="stat mr-5">
@@ -74,6 +75,15 @@
                        </tbody>
                      </table>
          </div>
+
+         <div class="flex-inline justify-content-center">
+           <ul class="pagination">
+             <li class="page-item"><a  @click="topage(firstUrl)" class="page-link">First</a></li>
+             <li class="page-item"><a @click="topage(prevUrl)"  class="page-link">Previous</a></li>
+             <li class="page-item"><a  @click="topage(nextUrl)" class="page-link">Next</a></li>
+             <li class="page-item"><a  @click="topage(lastUrl)" class="page-link">Last</a></li>
+           </ul>
+         </div>
       </div>
     </div>
   </div>
@@ -87,6 +97,12 @@
   			API_results: [],
         desptorResults: [],
         monthlyPayments: [],
+        firstUrl: null,
+        lastUrl: null,
+        nextUrl: null,
+        prevUrl: null,
+        _from: null,
+        _to: null,
 
           options: {
               chart: {
@@ -102,10 +118,30 @@
             }],
           }
   	},
+    methods: {
+      topage(url) {
+        if(url == null) return;
+        axios.get(url).then(response => {
+          this.API_results = response.data.data;
+          this.firstUrl = response.data.first_page_url;
+          this.nextUrl = response.data.next_page_url;
+          this.prevUrl = response.data.prev_page_url;
+          this.lastUrl = response.data.last_page_url;
+          this._from = response.data.from;
+          this._to = response.data.to;
+        });
+      },
+    },
     mounted() {
 
       axios.get('/api/payments').then(response => {
-          this.API_results = response.data;
+          this.API_results = response.data.data;
+          this.firstUrl = response.data.first_page_url;
+          this.nextUrl = response.data.next_page_url;
+          this.prevUrl = response.data.prev_page_url;
+          this.lastUrl = response.data.last_page_url;
+          this._from = response.data.from;
+          this._to = response.data.to;
         });
 
       // axios.get('/api/payments/deptors').then(response => {
@@ -118,5 +154,11 @@
   }
 </script>
 
-<style>
+<style scoped>
+h4 {
+  color: #282828;
+}
+.page-link {
+  cursor: pointer;
+}
 </style>

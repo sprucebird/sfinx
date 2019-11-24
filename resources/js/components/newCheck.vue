@@ -3,47 +3,54 @@
   <div class="page-header mb-4">
       <div class="description">
         <h3>Praėjimo kontrolė</h3>
-        <h1>Treniruotė</h1>
+        <h1>Pridėkite kortelę prie skaitytuvo</h1>
       </div>
-      <!-- <div class="ml-5 stats">
-         <div class="actions">
-          <router-link to="/users" class="btn btn-danger">
-            <span>Atšaukti</span>
-          </router-link>
-        </div>
-      </div> -->
     </div>
 
     <div class="page-content justify-content-center">
-    <div class="card card-big">
-       <div class="alert alert-success" v-if="operationStatus">
-        <h2 style="text-transform: uppercase;color: #fff;font-weight: bolder;">{{ownerData.firstName}} {{ownerData.lastName}}</h2>
-        <span class="bg-label bg-label-success mb-2" v-if="ownerData.balance > 0">Apmoketa</span>
-        <span class="bg-label bg-label-danger mb-2" v-if="ownerData.balance <= 0">Nepmoketa</span>
-        <h4>Šis įvykis buvo įrašytas į sistemą.</h4>
+      <div class="col-md-12">
+        <input ref="in1" type="text" class="form-control input-search text-center" style="font-size: 1.8em; border: none;font-weight: bolder; padding: 2rem .7rem;padding-left:0;letter-spacing: 10px;background: none !important;" placeholder="Užveskite pelę ant šio laukelio" v-model="code" @keyup.enter="userCreate">
       </div>
-      <div class="alert alert-warning" v-if="notFound">
-       <h2 style="text-transform: uppercase;color: #fff;font-weight: bolder;">Narys su tokia kortele nerastas</h2>
-       <h4>Šis įvykis buvo įrašytas į sistemą.</h4>
-     </div>
-      <div class="alert alert-danger" v-if="serverError">
-        <h2 style="text-transform: uppercase;color: #fff;font-weight: bolder;">Serverio klaida</h2>
-        <h4>Pabandykite atlikti šį veiksmą po keletos minučių ir jei tai nepadeda susisiekite su techninio aptarnavimo komanda</h4>
-        <h5 style="color: #fff;">Klaidos tekstas: {{serverErrorMessage}} </h5>
+    <div class="col-md-7 card big mt-5" v-if="operationStatus == true">
+      <div class="card-header">
+        <div class="h5">
+          Nario duomenys
+        </div>
       </div>
       <div class="card-body">
-        <div class="col-md-12">
-                          <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <h2>Pridėkite kortelę prie skaitytuvo</h2>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <input ref="in1" type="text" class="form-control input-search" style="font-size: 1.8em; border: none;font-weight: bolder; padding: 2rem .7rem;padding-left:0;letter-spacing: 10px;background: none !important;" placeholder="Naujas kodas atsiras cia" v-model="code" @keyup.enter="userCreate">
-                            </div>
-                        </div>
-        </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label for="fname">Vardas</label>
+                <div class="h4">
+                  {{ownerData.firstName}}
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="fname">Pavardė</label>
+                <div class="h4">
+                  {{ownerData.lastName}}
+                </div>
+              </div>
+            </div>
+            <div class="alert alert-success" v-if="ownerData.balance > 0">
+             <div style="text-transform: uppercase;font-weight: bolder;">Apmokėta</div>
+           </div>
+           <div class="alert alert-info" v-if="ownerData.balance == 0">
+            <div style="text-transform: uppercase;font-weight: bolder;">Nėra apmokėta už šį mėnesį</div>
+          </div>
+           <div class="alert alert-danger" v-if="ownerData.balance < 0">
+             <div style="text-transform: uppercase;font-weight: bolder;">Nėra apmokėta</div>
+           </div>
+           <div class="alert alert-warning" v-if="notFound">
+            <h2 style="text-transform: uppercase;color: #fff;font-weight: bolder;">Narys su tokia kortele nerastas</h2>
+            <h4>Šis įvykis buvo įrašytas į sistemą.</h4>
+          </div>
+         <div class="alert alert-danger" v-if="serverError">
+           <h2 style="text-transform: uppercase;color: #fff;font-weight: bolder;">Serverio klaida</h2>
+           <h4>Pabandykite atlikti šį veiksmą po keletos minučių ir jei tai nepadeda susisiekite su techninio aptarnavimo komanda</h4>
+           <h5 style="color: #fff;">Klaidos tekstas: {{serverErrorMessage}} </h5>
+         </div>
+          <button class="btn btn-secondary" @click="pay()">Apmoketi</button>
       </div>
     </div>
     </div>
@@ -69,6 +76,9 @@
       //this.$refs.input[0].focus();
     },
     methods: {
+      pay() {
+        this.$parent.newPayment(this.ownerData.id, this.ownerData);
+      },
       userCreate: function(){
         axios.post('/rfid/scan', {
           RFID: this.code

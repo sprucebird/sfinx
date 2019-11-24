@@ -211,7 +211,7 @@
                     <router-link to="/payments" class="item">
                       <span class="icon" data-feather="dollar-sign"></span>
                     </router-link>
-                    <router-link to="/entries" class="item">
+                    <router-link to="/trainings" class="item">
                       <span class="icon" data-feather="key"></span>
                     </router-link>
                     <router-link to="/settings/users" class="item">

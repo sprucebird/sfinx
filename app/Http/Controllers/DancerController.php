@@ -45,7 +45,7 @@ class DancerController extends Controller
     public function indexAPI()
     {
         $groups = groups::latest()->get();
-        $members = dancer::latest()->get();
+        $members = dancer::latest()->paginate(15);
         foreach ($members as $member) {
           $member->entries = Entrie::where('Owner', $member->id)->count();
           $member->payments = payments::where('member', $member->id)->get();

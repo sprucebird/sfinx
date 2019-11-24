@@ -43,6 +43,14 @@
             <h3>šiuo metu registruotų sistemoje</h3>
           </div>
         </div>
+        <div class="stat">
+          <span class="mt-1 status status-warning"></span>
+          <h1 class="number mt-3 ml-2">{{ActiveMembersCount}}</h1>
+          <div class="txt mt-2 ml-2">
+            <h2><b>aktyvių</b> narių</h2>
+            <h3>šiuo metu registruotų sistemoje</h3>
+          </div>
+        </div>
       </div>
   </div>
   <div class="page-content justify-content-center mt-5" style="padding-top: 1em;">
@@ -120,6 +128,7 @@
         outcome: 0,
         outcome_date: null,
         membersCount: null,
+        activeMembersCount: null,
         membersCount_date: null,
   		}
   	},
@@ -131,6 +140,7 @@
       });
       axios.get('api/stats/members/count').then(response => {
         this.membersCount = response.data.count;
+        this.activeMembersCount = response.data.active;
       });
       axios.get('api/stats/economy/income/1').then(response => {
         this.income = response.data.income;

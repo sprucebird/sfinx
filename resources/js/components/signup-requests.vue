@@ -4,6 +4,7 @@
       <div class="description">
         <h3 :class="{mport: $root.dark}">Registracijos</h3>
         <h1 :class="{mport: $root.dark}">Nepatvirtintos registracijos</h1>
+        <h4>{{_from}} – {{_to}}</h4>
       </div>
       <div class="ml-5 stats">
         <div class="stat mr-5">
@@ -67,6 +68,16 @@
                         </tbody>
                     </table>
                 </div>
+
+                <div class="flex-inline justify-content-center">
+                  <ul class="pagination">
+                    <li class="page-item"><a  @click="topage(firstUrl)" class="page-link">First</a></li>
+                    <li class="page-item"><a @click="topage(prevUrl)"  class="page-link">Previous</a></li>
+                    <li class="page-item"><a  @click="topage(nextUrl)" class="page-link">Next</a></li>
+                    <li class="page-item"><a  @click="topage(lastUrl)" class="page-link">Last</a></li>
+                  </ul>
+                </div>
+
             </div>
     </div>
   </div>
@@ -79,6 +90,12 @@
   		return{
   			API_results: [],
         newSignups: null,
+        firstUrl: null,
+        lastUrl: null,
+        nextUrl: null,
+        prevUrl: null,
+        _from: null,
+        _to: null,
   		}
   	},
   	methods: {
@@ -92,6 +109,18 @@
   		},
       showConfirmDialog(id){
         this.$router.push('/signups/confirm/'+id);
+      },
+      topage(url) {
+        if(url == null) return;
+        axios.get(url).then(response => {
+          this.API_results = response.data.data;
+          this.firstUrl = response.data.first_page_url;
+          this.nextUrl = response.data.next_page_url;
+          this.prevUrl = response.data.prev_page_url;
+          this.lastUrl = response.data.last_page_url;
+          this._from = response.data.from;
+          this._to = response.data.to;
+        });
       },
       deleteMember(id) {
         swal({
@@ -108,7 +137,13 @@
           }).then(response => {
             if(response.status == 200) {
               axios.get('/api/signups').then(response => {
-              	this.API_results = response.data
+                this.API_results = response.data.data;
+                this.firstUrl = response.data.first_page_url;
+                this.nextUrl = response.data.next_page_url;
+                this.prevUrl = response.data.prev_page_url;
+                this.lastUrl = response.data.last_page_url;
+                this._from = response.data.from;
+                this._to = response.data.to;
               });
 
               axios.get('/api/stats/signups/1').then(response => {
@@ -125,7 +160,13 @@
     mounted() {
 
       axios.get('/api/signups').then(response => {
-      	this.API_results = response.data
+        this.API_results = response.data.data;
+        this.firstUrl = response.data.first_page_url;
+        this.nextUrl = response.data.next_page_url;
+        this.prevUrl = response.data.prev_page_url;
+        this.lastUrl = response.data.last_page_url;
+        this._from = response.data.from;
+        this._to = response.data.to;
       });
 
       axios.get('/api/stats/signups/1').then(response => {
@@ -153,4 +194,11 @@ th, tr {
   color: inherit;
 }
 
+h4 {
+  color: #282828;
+}
+
+.page-link {
+  cursor: pointer;
+}
 </style>

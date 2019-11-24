@@ -163,7 +163,7 @@ class StatisticsController extends Controller
      */
     public function membersCount()
     {
-        return response()->json(['count' => dancer::count()]);
+        return response()->json(['count' => dancer::count(), 'active' => dancer::count()]);
     }
 
 

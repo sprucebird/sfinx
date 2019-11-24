@@ -54,8 +54,9 @@ import home from './components/home.vue';
 import groups from './components/groups.vue';
 import groupsUpdate from './components/groups-update.vue';
 import members from './components/members.vue';
-import entries from './components/entries.vue';
+import trainingData from './components/trainings.vue';
 import trainingDetails from './components/training_details.vue';
+import entries from './components/entries.vue';
 import newEntrie from './components/newCheck.vue';
 import payments from './components/payments.vue';
 import competition from './components/competition-show.vue';
@@ -87,6 +88,7 @@ const routes = [
   { path: '/groups/update/:id', component: groupsUpdate, name: 'group' },
   { path: '/payments', component: payments },
   { path: '/entries', component: entries },
+  { path: '/trainings', component: trainingData },
   { path: '/trainings/:id/:proc_rate', component: trainingDetails, name: trainingDetails },
   { path: '/treniruote', component: newEntrie },
   { path: '/competition', component: competition },

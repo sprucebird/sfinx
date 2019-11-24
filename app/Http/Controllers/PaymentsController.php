@@ -20,7 +20,7 @@ class PaymentsController extends Controller
      */
     public function index()
     {
-        $payments = payments::latest()->get();
+        $payments = payments::latest()->paginate(15);
         $members = dancer::latest()->get();
         foreach ($members as $member) {
             foreach ($payments as $payment) {

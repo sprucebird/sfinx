@@ -33,7 +33,7 @@ class SignupsController extends Controller
      */
     public function indexAPI()
     {
-        $signups = Signups::latest()->get();
+        $signups = Signups::latest()->paginate(15);
         return response()->json($signups);
     }
 
