@@ -12,7 +12,7 @@
 */
 //
 
-// Route::domain('dev.sfinx.sprucebird.co')->group(function () {
+// Route::domain('sfinx.lt')->group(function () {
 //     Route::get('/', 'SignupsController@create')->name('SignupFormPublic');
 //     // Route::post('/', ['as' => '/', 'uses' => 'SignupsController@store'])->name('SignupFormPublicPublish');
 //     Route::post('/', 'SignupsController@store')->name('SignupFormPublicPublish');
@@ -84,3 +84,7 @@ Route::get('api/users', 'UserSessionsController@usersList')->name('api.users.lis
 Route::get('/api/users/new/link', 'UserSessionsController@generateNewUserUrl');
 Route::post('/api/gonerList', "RFIDController@gonerList");
 });
+
+
+
+//THIS IS REAL

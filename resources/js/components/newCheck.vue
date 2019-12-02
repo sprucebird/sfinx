@@ -73,7 +73,8 @@
       }
     },
     mounted(){
-      //this.$refs.input[0].focus();
+      //this.$refs.input[0].focus();\
+      this.$refs['in1'].focus();
     },
     methods: {
       pay() {

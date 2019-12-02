@@ -245,6 +245,7 @@ class RFIDController extends Controller
         $entries = Entrie::latest()->paginate(15);
         $members = dancer::latest()->get();
         $groups = groups::latest()->get();
+        $entoday = 0;
         foreach ($entries as $entrie)
         {
             foreach ($members as $member)
@@ -258,6 +259,8 @@ class RFIDController extends Controller
                     $fees = Fees::where('owner', $member->id)->get();
                     $entrie->balance = calculateBalance($payments, $fees);
                     $entrie->status = 'OK';
+                    $entrie->today = (Carbon::parse($entrie->created_at)->format("Y-m-d") == Carbon::today()->format("Y-m-d") ? true : false);
+                    $entoday += ($entrie->today ? 1 : 0);
                     foreach ($groups as $group) {
                         if($member->group == $group->id)
                         {
@@ -268,6 +271,6 @@ class RFIDController extends Controller
             }
 
         }
-        return response()->json(['entries' => $entries]);
+        return response()->json(['entries' => $entries, 'today' => $entoday]);
     }
 }

@@ -6,6 +6,14 @@
       <h1>Prėjimo kontrolės įrašai</h1>
       <h4>{{_from}} – {{_to}}</h4>
     </div>
+
+    <div class="card col-2" ref="nonActive" style="margin-left: 4rem">
+      <div class="card-body text-center">
+        <div class="h6">Šiandien atėję nariai</div>
+        <h1 class="font-weight-bold mb-4">{{todayCount}}</h1>
+      </div>
+    </div>
+
   </div>
   <div class="page-content justify-content-center mt-4">
     <div class="card big mt-5">
@@ -23,7 +31,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr role="row" class="odd" v-for="entrie in entries">
+              <tr role="row" class="odd" :class="{'today' : entrie.today}" v-for="entrie in entries" >
                 <td>
                   <div>
                     {{entrie.id}}
@@ -86,6 +94,7 @@ export default {
       prevUrl: null,
       _from: null,
       _to: null,
+      todayCount: 0,
     }
   },
   methods: {
@@ -117,6 +126,7 @@ export default {
       this.lastUrl = response.data.entries.last_page_url;
       this._from = response.data.entries.from;
       this._to = response.data.entries.to;
+      this.todayCount = response.data.today;
     });
 
   },
@@ -142,5 +152,9 @@ export default {
 
 h4 {
   color: #282525;
+}
+
+.today {
+  border-left: 0.3rem solid #316CBE;
 }
 </style>

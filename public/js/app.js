@@ -1911,6 +1911,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1921,7 +1929,8 @@ __webpack_require__.r(__webpack_exports__);
       nextUrl: null,
       prevUrl: null,
       _from: null,
-      _to: null
+      _to: null,
+      todayCount: 0
     };
   },
   methods: {
@@ -1957,6 +1966,7 @@ __webpack_require__.r(__webpack_exports__);
       _this2.lastUrl = response.data.entries.last_page_url;
       _this2._from = response.data.entries.from;
       _this2._to = response.data.entries.to;
+      _this2.todayCount = response.data.today;
     });
   },
   watch: {//nothing to watch here :(
@@ -3496,7 +3506,9 @@ __webpack_require__.r(__webpack_exports__);
       ownerData: null
     };
   },
-  mounted: function mounted() {//this.$refs.input[0].focus();
+  mounted: function mounted() {
+    //this.$refs.input[0].focus();\
+    this.$refs['in1'].focus();
   },
   methods: {
     pay: function pay() {
@@ -9065,7 +9077,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.td-active[data-v-00693e15] {\n  border-left: solid 0.3rem #316CBE\n}\n.red[data-v-00693e15] {\n  color: red;\n}\n.page-link[data-v-00693e15] {\n  cursor: pointer;\n    color: rgb(47, 77, 231);\n}\nh4[data-v-00693e15] {\n  color: #282525;\n}\n", ""]);
+exports.push([module.i, "\n.td-active[data-v-00693e15] {\n  border-left: solid 0.3rem #316CBE\n}\n.red[data-v-00693e15] {\n  color: red;\n}\n.page-link[data-v-00693e15] {\n  cursor: pointer;\n    color: rgb(47, 77, 231);\n}\nh4[data-v-00693e15] {\n  color: #282525;\n}\n.today[data-v-00693e15] {\n  border-left: 0.3rem solid #316CBE;\n}\n", ""]);
 
 // exports
 
@@ -75626,7 +75638,25 @@ var render = function() {
         _c("h1", [_vm._v("Prėjimo kontrolės įrašai")]),
         _vm._v(" "),
         _c("h4", [_vm._v(_vm._s(_vm._from) + " – " + _vm._s(_vm._to))])
-      ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          ref: "nonActive",
+          staticClass: "card col-2",
+          staticStyle: { "margin-left": "4rem" }
+        },
+        [
+          _c("div", { staticClass: "card-body text-center" }, [
+            _c("div", { staticClass: "h6" }, [_vm._v("Šiandien atėję nariai")]),
+            _vm._v(" "),
+            _c("h1", { staticClass: "font-weight-bold mb-4" }, [
+              _vm._v(_vm._s(_vm.todayCount))
+            ])
+          ])
+        ]
+      )
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "page-content justify-content-center mt-4" }, [
@@ -75652,7 +75682,11 @@ var render = function() {
                   _vm._l(_vm.entries, function(entrie) {
                     return _c(
                       "tr",
-                      { staticClass: "odd", attrs: { role: "row" } },
+                      {
+                        staticClass: "odd",
+                        class: { today: entrie.today },
+                        attrs: { role: "row" }
+                      },
                       [
                         _c("td", [
                           _c("div", [
@@ -76716,7 +76750,7 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "stat" }, [
-          _c("span", { staticClass: "mt-1 status status-warning" }),
+          _c("span", { staticClass: "mt-1 status status-ok" }),
           _vm._v(" "),
           _c("h1", { staticClass: "number mt-3 ml-2" }, [
             _vm._v(_vm._s(_vm.membersCount))
@@ -76726,10 +76760,10 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "stat" }, [
-          _c("span", { staticClass: "mt-1 status status-warning" }),
+          _c("span", { staticClass: "mt-1 status status-ok" }),
           _vm._v(" "),
           _c("h1", { staticClass: "number mt-3 ml-2" }, [
-            _vm._v(_vm._s(_vm.ActiveMembersCount))
+            _vm._v(_vm._s(_vm.activeMembersCount))
           ]),
           _vm._v(" "),
           _vm._m(2)

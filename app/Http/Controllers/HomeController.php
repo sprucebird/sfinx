@@ -90,9 +90,9 @@ class HomeController extends Controller
 
     public function search(Request $req) {
       $q = $req->input('searchQ');
-      $signups = Signups::where('firstName', 'LIKE', '%'.$q.'%')->orwhere('lastName', 'LIKE', '%'.$q.'%')->orwhere('city', 'LIKE', '%'.$q.'%')->get();
-      $members = dancer::where('firstName', 'LIKE', '%'.$q.'%')->orwhere('lastName', 'LIKE', '%'.$q.'%')->orwhere('city', 'LIKE', '%'.$q.'%')->orwhere('id', 'LIKE', '%'.$q.'%')->get();
-      $groups = groups::where('groupName', 'LIKE', '%'.$q.'%')->orwhere('id', 'LIKE', '%'.$q.'%')->get();
+      $signups = Signups::where('firstName', 'LIKE', $q.'%')->orwhere('lastName', 'LIKE', $q.'%')->orwhere('city', 'LIKE', $q.'%')->orderBy("firstName", "asc")->get();
+      $members = dancer::where('firstName', 'LIKE', $q.'%')->orwhere('lastName', 'LIKE', $q.'%')->orwhere('city', 'LIKE', $q.'%')->orwhere('id', 'LIKE', $q.'%')->orderBy("firstName", "asc")->get();
+      $groups = groups::where('groupName', 'LIKE', $q.'%')->orwhere('id', 'LIKE', $q.'%')->orderBy("groupName", "asc")->get();
       // $results = array_merge($groups->toArray(), $members->toArray(), $signups->toArray());
       $results =
         [

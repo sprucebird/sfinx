@@ -8,6 +8,8 @@ use App\Signups;
 use App\paymentStatistics;
 use App\fees;
 use App\dancer;
+use App\Setting;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DB;
 
@@ -163,7 +165,10 @@ class StatisticsController extends Controller
      */
     public function membersCount()
     {
-        return response()->json(['count' => dancer::count(), 'active' => dancer::count()]);
+        $all = dancer::count();
+        $offset = Carbon::today()->subDays(Setting::where("name", "inactive")->first()->value_int);
+        $ac = dancer::where("lastVisited", ">=", $offset)->count();
+        return response()->json(['count' => $all, 'active' => $ac]);
     }
 
 
