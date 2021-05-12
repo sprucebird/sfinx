@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "apexcharts": "^3.8.6",
-    "chart.js": "^2.8.0",
+    "chart.js": "^2.9.4",
     "cross-env": "^5.2.1",
     "datetimepicker": "^0.1.39",
     "feather-icons": "^4.22.1",
